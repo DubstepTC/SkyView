@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
-class Background extends StatelessWidget {
-  final String picture;
+class MainFrame extends StatelessWidget {
   final double width;
   final double height; 
 
-  const Background({super.key, required this.width, required this.height, required this.picture});
+  const MainFrame({super.key, required this.width, required this.height});
 
   @override
   Widget build(BuildContext context) {
@@ -17,21 +16,13 @@ class Background extends StatelessWidget {
     double rectangleHeight = screenHeight * height;
 
   
-    return SizedBox(
+    return Container(
       width: rectangleWidth,
       height: rectangleHeight,
-      child: Stack(
-        children: [
-        Image.asset(picture, fit: BoxFit.fitHeight, height: rectangleHeight, width: rectangleWidth,),
-        Positioned.fill(
-          child: Container(
-            decoration: const BoxDecoration(
-              color:  Color.fromRGBO(0, 0, 0, 0.5),
-            ),
-          ),
-        ),
-      ]
-      )
+      decoration: const BoxDecoration(
+        color: Color.fromRGBO(39, 64, 87, 0.35),
+        borderRadius: BorderRadius.all(Radius.circular(30)),
+      ),
     );
   }
 }
