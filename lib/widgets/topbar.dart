@@ -57,9 +57,9 @@ class _TopState extends State<Top> {
           InkWell(
             onTap: () {
               Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Settings()),
-            );
+                context,
+                MaterialPageRoute(builder: (context) => Settings()),
+              );
             },
             child: ColorFiltered(
               colorFilter: ColorFilter.mode(const Color.fromARGB(255, 255, 255, 255), BlendMode.modulate), // Замените Colors.red на нужный вам цвет

@@ -1,3 +1,5 @@
+import 'package:SkyView/widgets/estimation.dart';
+import 'package:SkyView/widgets/privacy_policy.dart';
 import 'package:SkyView/widgets/settings/field_of_construction.dart';
 import 'package:flutter/material.dart';
 import 'package:SkyView/widgets/background.dart';
@@ -79,13 +81,55 @@ Widget build(BuildContext context) {
                 ),
               ),
               SizedBox(
-                height: screenHeight * 0.40, 
-                width: screenWidth * 0.8,
-                child: CustomContainerWidget(nameContainer: "Температура", choice: "Привет",),
+                height: screenHeight * 0.04, 
+                width: screenWidth * 0.9,
+                child: const Text("Единицы измерения", style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.normal),),
+              ),
+              SizedBox(
+                height: screenHeight * 0.1, 
+                width: screenWidth * 0.95,
+                child: CustomContainerWidget(height: screenHeight * 0.08, width: screenWidth * 0.95, nameContainer: "Температура", choice: const ["°C", "°F"], con: "temperature",),
+              ), 
+              SizedBox(
+                height: screenHeight * 0.1, 
+                width: screenWidth * 0.95,
+                child: CustomContainerWidget(height: screenHeight * 0.08, width: screenWidth * 0.95, nameContainer: "Скорость ветра", choice: const ["Километры в час", "Шкала Бофорта", "Метры в секунду", "Мили в час", "Узлы"], con: "windSpeeed",),
+              ), 
+              SizedBox(
+                height: screenHeight * 0.16, 
+                width: screenWidth * 0.95,
+                child: CustomContainerWidget(height: screenHeight * 0.08, width: screenWidth * 0.95, nameContainer: "Единицы измерения атмосферного давления", choice: const ["Миллиметр ртутного столба (мм рт. ст)", "Физическая атмосфера (атм)", "Миллибар (мбар)"], con: "pressure",),
+              ), 
+              Container(
+                width: screenWidth * 0.86,
+                height: screenHeight * 0.002,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                ),
+              ),
+              SizedBox(
+                height: screenHeight * 0.01, 
+                width: screenWidth * 0.9,
               ),  
               SizedBox(
-                height: screenHeight * 0.40, 
-                width: screenWidth * 0.8,
+                height: screenHeight * 0.038, 
+                width: screenWidth * 0.9,
+                child: const Text("О приложении", style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.normal),),
+              ),
+              SizedBox(
+                height: screenHeight * 0.08, 
+                width: screenWidth * 0.95,
+                child: Estimation(height: screenHeight * 0.08, width: screenWidth * 0.95,),
+              ),
+              SizedBox(
+                height: screenHeight * 0.08, 
+                width: screenWidth * 0.95,
+                child: RrivacyPolicyWidget(height: screenHeight * 0.08, width: screenWidth * 0.95,),
+              ),
+              SizedBox(
+                height: screenHeight * 0.19, 
+                width: screenWidth * 0.9,
               ),   
             ],
           ),

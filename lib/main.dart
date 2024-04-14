@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:SkyView/pages/main_page.dart';
+import 'package:SkyView/Appconstants/constants.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await AppConstants.initialize();
   runApp(const MainApp());
 }
 
