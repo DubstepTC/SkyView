@@ -4,9 +4,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AppConstants {
   static String url = "";
-  static List<String> cities = ['Москва', 'Тверь'];
+  //static List<String> cities = ['Москва', 'Тверь'];
+
+  static Map<String, String> cityCountryMap = {
+    'Москва': 'Россия',
+    'Тверь': 'Россия',
+    'London': 'vel',
+  };
+
   static Color nightColor = const Color.fromRGBO(194, 184, 255, 1.0); 
-  static Color sunColor = const Color.fromRGBO(245, 255, 184, 1.0); // Пример списка городов 
+  static Color sunColor = const Color.fromRGBO(245, 255, 184, 1.0);
+  static Color backColor = const Color.fromRGBO(39, 64, 87, 0.35);
 
 
   //Параметры настроек

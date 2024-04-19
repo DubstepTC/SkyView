@@ -1,6 +1,7 @@
+import 'package:SkyView/pages/cities.dart';
 import 'package:SkyView/pages/settings.dart';
 import 'package:flutter/material.dart';
-import 'package:SkyView/widgets/city.dart';
+import 'package:SkyView/widgets/main/city.dart';
 
 
 class Top extends StatefulWidget {
@@ -37,6 +38,10 @@ class _TopState extends State<Top> {
           SizedBox(width:  rectangleWidth * 0.05,),
           InkWell(
             onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CitiesAdd()),
+              );
             },
             child: ColorFiltered(
               colorFilter: ColorFilter.mode(const Color.fromARGB(255, 255, 255, 255), BlendMode.modulate), // Замените Colors.red на нужный вам цвет

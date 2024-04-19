@@ -15,7 +15,7 @@ class Estimation extends StatelessWidget {
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: Color.fromRGBO(39, 64, 87, 1),
-          title: const Text('Оценика', textAlign: TextAlign.center,style: TextStyle(color: Color.fromRGBO(194, 184, 255, 1), fontSize: 18,),),
+          title: const Text('Оценка', textAlign: TextAlign.center,style: TextStyle(color: Color.fromRGBO(194, 184, 255, 1), fontSize: 18,),),
           content: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return RatingBar.builder(

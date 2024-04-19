@@ -18,15 +18,19 @@ class CityListWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                AppConstants.cities[currentIndex],
+                AppConstants.cityCountryMap.keys.toList()[currentIndex],
                 style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 8), // Добавляем небольшой отступ между индикаторами и названием города
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(
-                  AppConstants.cities.length,
-                  (i) => Icon(Icons.fiber_manual_record, color: i == currentIndex ? Colors.white : Colors.grey, size: 10),
+                  AppConstants.cityCountryMap.keys.length,
+                  (i) => Icon(
+                    Icons.fiber_manual_record,
+                    color: i == currentIndex ? Colors.white : Colors.grey,
+                    size: 10,
+                  ),
                 ),
               ),
             ],

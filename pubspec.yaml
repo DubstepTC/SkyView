@@ -10,6 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_rating_bar: ^4.0.1
+  http: ^1.2.1
   shared_preferences: ^2.2.3
 
 dev_dependencies:
@@ -24,6 +25,7 @@ flutter:
     - assets/
     - assets/icons/
     - assets/images/
+    - assets/signs/
    
 flutter_icons:
   android: "launcher_icon"
