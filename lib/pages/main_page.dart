@@ -1,27 +1,33 @@
-import 'package:SkyView/widgets/main/emty.dart';
 import 'package:flutter/material.dart';
-import 'package:SkyView/widgets/background.dart';
-import 'package:SkyView/widgets/frame/main_frame.dart';
-import 'package:SkyView/widgets/main/topbar.dart';
 import 'package:flutter/services.dart';
 import 'package:SkyView/Appconstants/constants.dart';
+import 'package:SkyView/widgets/background.dart';
+import 'package:SkyView/widgets/frame/main_frame.dart';
 import 'package:SkyView/widgets/frame/strip.dart';
 import 'package:SkyView/widgets/frame/table.dart';
+import 'package:SkyView/widgets/main/emty.dart';
+import 'package:SkyView/widgets/main/topbar.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key, required int currentIndex});
+  final int currentIndex;
+
+  const MainScreen({Key? key, required this.currentIndex}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _MainScreenState createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int currentIndex = 0;
+  late PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: widget.currentIndex);
+  }
 
   @override
   Widget build(BuildContext context) {
-    setState(() {});
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -44,13 +50,12 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
           PageView.builder(
+            controller: _pageController,
             itemCount: AppConstants.cityCountryMap.isNotEmpty
                 ? AppConstants.cityCountryMap.length
                 : 1, // Display another screen if the list is empty
             onPageChanged: (index) {
-              setState(() {
-                currentIndex = index;
-              });
+              // No need to setState here
             },
             itemBuilder: (context, index) {
               if (AppConstants.cityCountryMap.isNotEmpty) {
@@ -65,7 +70,7 @@ class _MainScreenState extends State<MainScreen> {
                       Top(
                         width: 1, 
                         height: 0.08, 
-                        currentIndex: currentIndex,
+                        currentIndex: index,
                       ),
                       SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
                       MainFrame(width: 0.7, height: 0.32),
@@ -87,7 +92,7 @@ class _MainScreenState extends State<MainScreen> {
                       EmptyTop(
                         width: 1, 
                         height: 0.08, 
-                        currentIndex: currentIndex,
+                        currentIndex: index,
                       ),
                       SizedBox(height: MediaQuery.of(context).size.height * 0.32,),
                       Container(

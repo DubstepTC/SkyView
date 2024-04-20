@@ -68,7 +68,9 @@ class _CitiesAddState extends State<CitiesAdd> {
                       SizedBox(width: screenWidth * 0.05,),
                       InkWell(
                         onTap: () {
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MainScreen(currentIndex: 0,)));
+                          setState(() {
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MainScreen(currentIndex: 0,)));
+                          });
                         },
                         child: ColorFiltered(
                           colorFilter: ColorFilter.mode(const Color.fromARGB(255, 255, 255, 255), BlendMode.modulate),
