@@ -1,6 +1,6 @@
 import 'package:SkyView/Appconstants/constants.dart';
+import 'package:SkyView/pages/main_page.dart';
 import 'package:flutter/material.dart';
-import 'package:SkyView/function/deleteCity.dart';
 import 'package:SkyView/function/weatherImage.dart';
 
 class CardCities extends StatelessWidget {
@@ -11,7 +11,7 @@ class CardCities extends StatelessWidget {
   final String country;
   final String weather;
 
-  const CardCities({super.key, required this.width, required this.height, required this.temperature, required this.city, required this.country , required this.weather});
+  const CardCities({super.key,required this.width, required this.height, required this.temperature, required this.city, required this.country , required this.weather});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,6 @@ class CardCities extends StatelessWidget {
     double rectangleHeight = screenHeight * height;
     //Функции
     WeatherHelper weatherHelper = WeatherHelper();
-    DeleteCity addCity = DeleteCity();
    
     return Stack(
       children: [
@@ -59,7 +58,15 @@ class CardCities extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-            addCity.showAddCityDialog(context, city, country);
+            int index = AppConstants.cityCountryMap.keys.toList().indexOf(city);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MainScreen(
+                  currentIndex: index,
+                ),
+              ),
+            );
           },
           child: Container(
             width: rectangleWidth,

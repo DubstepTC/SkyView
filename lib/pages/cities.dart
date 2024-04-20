@@ -1,13 +1,14 @@
+import 'package:SkyView/main.dart';
+import 'package:SkyView/pages/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:SkyView/Appconstants/constants.dart';
-import 'package:SkyView/widgets/card.dart';
-import 'package:SkyView/widgets/search.dart';
+import 'package:SkyView/widgets/cityList/card.dart';
+import 'package:SkyView/widgets/cityList/search.dart';
 import 'package:SkyView/widgets/background.dart';
 import 'package:flutter/services.dart';
 
 class CitiesAdd extends StatefulWidget {
-
-  CitiesAdd({Key? key,}) : super(key: key);
+  CitiesAdd({Key? key}) : super(key: key);
 
   @override
   _CitiesAddState createState() => _CitiesAddState();
@@ -60,14 +61,14 @@ class _CitiesAddState extends State<CitiesAdd> {
                 SizedBox(height: screenHeight * 0.04,),
                 SizedBox(
                   width: screenWidth,
-                  height: screenHeight * 0.16,
+                  height: screenHeight * 0.12,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(width: screenWidth * 0.05,),
                       InkWell(
                         onTap: () {
-                          Navigator.pop(context);
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MainScreen(currentIndex: 0,)));
                         },
                         child: ColorFiltered(
                           colorFilter: ColorFilter.mode(const Color.fromARGB(255, 255, 255, 255), BlendMode.modulate),
@@ -88,29 +89,72 @@ class _CitiesAddState extends State<CitiesAdd> {
                   width: screenWidth * 0.95,
                   height: screenHeight * 0.80,
                   padding: const EdgeInsets.only(bottom: 16, left: 16, right: 16),
-                  child: ListView.builder(
-                    itemCount: filteredCities().length,
-                    itemBuilder: (context, index) {
-                      final cityName = filteredCities()[index];
-                      final countryName = AppConstants.cityCountryMap[cityName] ?? '';
-                      return Column(
-                        children: [
-                          ListTile( 
-                            title: CardCities(
-                              height: 0.22, 
-                              width: 0.8, 
-                              temperature: "21", 
-                              city: cityName, 
-                              country: countryName, 
-                              weather: "Ясно",
-                            ),
-                          ),
-                          SizedBox(height: screenHeight * 0.03),
-                        ],
-                      );
-                    },
-                  ),
-                )  
+                  child: filteredCities().isEmpty
+                      ? Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                "Добавьте город для отображения погоды",
+                                style: TextStyle(
+                                  color: Color.fromRGBO(194, 184, 255, 1),
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(height: screenHeight * 0.10,),
+                            ]
+                          )
+                      )
+                      : ListView.builder(
+                          itemCount: filteredCities().length,
+                          itemBuilder: (context, index) {
+                            final cityName = filteredCities()[index];
+                            final countryName = AppConstants.cityCountryMap[cityName] ?? '';
+                            return Column(
+                              children: [
+                                Dismissible(
+                                  key: Key(cityName), // Уникальный ключ для элемента списка
+                                  direction: DismissDirection.endToStart, // Направление свайпа
+                                  onDismissed: (direction) {
+                                    setState(() {
+                                      // Удаление города из списка
+                                      AppConstants.cityCountryMap.remove(cityName);
+                                      //AppConstants.savePreferences();
+                                    });
+                                  },
+                                  background: Container(
+                                    alignment: Alignment.centerLeft,
+                                    decoration: const BoxDecoration(
+                                      color: Color.fromRGBO(39, 64, 87, 0),
+                                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                                    ),
+                                    padding: EdgeInsets.only(
+                                        left: MediaQuery.of(context).size.width * 0.60), // Добавляем отступ слева
+                                    child: const Icon(
+                                      Icons.delete, // Иконка удаления
+                                      size: 64.0, // Увеличиваем размер иконки
+                                      color: Colors.white,
+                                    ), // Иконка удаления
+                                  ),
+                                  child: ListTile(
+                                    title: CardCities(
+                                      height: 0.22,
+                                      width: 0.8,
+                                      temperature: "21",
+                                      city: cityName,
+                                      country: countryName,
+                                      weather: "Ясно",
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                ),
+                SizedBox(height: screenHeight * 0.04,),  
               ],
             ),
           ),

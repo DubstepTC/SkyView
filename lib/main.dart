@@ -33,7 +33,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: PopScope(
-        child: MainScreen(),
+        child: MainScreen(currentIndex: 0,),
       ),
       debugShowCheckedModeBanner: false,
     );
