@@ -1,30 +1,22 @@
-import 'package:SkyView/pages/main_page.dart';
+import 'package:SkyView/API/API.dart';
+import 'package:SkyView/widgets/cityList/card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:SkyView/Appconstants/constants.dart';
-import 'package:SkyView/widgets/cityList/card.dart';
-import 'package:SkyView/widgets/cityList/search.dart';
 import 'package:SkyView/widgets/background.dart';
+import 'package:SkyView/API/cityAPI.dart'; // Импорт вашего сервиса City API
 
-class CitiesList extends StatefulWidget {
+class SearchResultsScreen extends StatefulWidget {
   final int currentIndex;
-  CitiesList({Key? key, required this.currentIndex}) : super(key: key);
+  SearchResultsScreen({Key? key, required this.currentIndex}) : super(key: key);
 
   @override
-  _CitiesListState createState() => _CitiesListState();
+  _SearchResultsScreenState createState() => _SearchResultsScreenState();
 }
 
-class _CitiesListState extends State<CitiesList> {
-  String searchText = '';
-
-  List<String> filteredCitiesList() {
-    // Фильтрация городов на основе текста поиска
-    return AppConstants.cityCountryMap.keys.where((city) {
-      final normalizedCity = city.toLowerCase();
-      final normalizedSearchText = searchText.toLowerCase();
-      return normalizedCity.contains(normalizedSearchText);
-    }).toList();
-  }
+class _SearchResultsScreenState extends State<SearchResultsScreen> {
+  TextEditingController searchController = TextEditingController();
+  CityDataProvider cityDataProvider = CityDataProvider(); // Создайте экземпляр вашего сервиса City API
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +61,7 @@ class _CitiesListState extends State<CitiesList> {
                       InkWell(
                         onTap: () {
                           setState(() {
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen(currentIndex: widget.currentIndex,)));
+                            Navigator.pop(context);
                           });
                         },
                         child: ColorFiltered(
@@ -82,16 +74,70 @@ class _CitiesListState extends State<CitiesList> {
                         ),
                       ),
                       SizedBox(width: screenWidth * 0.04,),
-                      SearchContainerWidget(width: 0.68, height: 0.05,),
+                      Expanded(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.68,
+                          height: MediaQuery.of(context).size.height * 0.05,
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          decoration: BoxDecoration(
+                            color: AppConstants.backColor,
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 8,
+                                child: TextField(
+                                  controller: searchController,
+                                  decoration: InputDecoration(
+                                    hintText: 'Введите местоположение',
+                                    hintStyle: TextStyle(
+                                      color: AppConstants.nightColor,
+                                    ),
+                                    border: InputBorder.none,
+                                  ),
+                                  style: TextStyle(
+                                    color: AppConstants.nightColor,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: IconButton(
+                                  icon: Icon(Icons.search, color: Colors.white,),
+                                  onPressed: () async {
+                                    String searchText = searchController.text;
+                                    // Вызовите метод получения данных о городах
+                                    await cityDataProvider.getCities(searchText).then((cities) {
+                                      // Обработка ответа
+                                      print(AppConstants.citySearch);
+                                    }).catchError((error) {
+                                      // Обработка ошибок
+                                      print('Ошибка при получении данных о городах: $error');
+                                    });
+                                    for (int i = 0; i < AppConstants.citySearch.length; i++) {
+                                        String city = AppConstants.citySearch[i]['city']!;
+                                        String country = AppConstants.citySearch[i]['country']!;
+                                        API api = API();
+                                        Map<String, dynamic> weatherData = await api.fetchWeatherForCityAndCountry(city, country);
+                                        AppConstants.cityWeather.add(weatherData);
+                                    }
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                       SizedBox(width: screenWidth * 0.10,),
                     ]
                   ),
-                ), 
+                ),
                 Container(
                   width: screenWidth * 0.95,
                   height: screenHeight * 0.80,
                   padding: const EdgeInsets.only(bottom: 16, left: 16, right: 16),
-                  child: filteredCitiesList().isEmpty
+                  child: AppConstants.cityWeather.isEmpty
                       ? Center(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -110,19 +156,21 @@ class _CitiesListState extends State<CitiesList> {
                           )
                       )
                       : ListView.builder(
-                          itemCount: filteredCitiesList().length,
+                          itemCount: AppConstants.cityWeather.length,
                           itemBuilder: (context, index) {
-                            final cityName = filteredCitiesList()[index];
-                            final countryName = AppConstants.cityCountryMap[cityName] ?? '';
+                            final cityName = AppConstants.cityWeather[index]["city"];
+                            final countryName = AppConstants.cityWeather[index]["country"] ?? '';
+                            final temperature = AppConstants.cityWeather[index]["temperature"].toString() ?? '-';
+                            final weather = AppConstants.cityWeather[index]["weather_status"] ?? '';
                             return Column(
                               children: [
                                 Dismissible(
                                   key: Key(cityName), // Уникальный ключ для элемента списка
-                                  direction: DismissDirection.endToStart, // Направление свайпа
+                                  direction: DismissDirection.horizontal, // Направление свайпа
                                   onDismissed: (direction) {
                                     setState(() {
                                       // Удаление города из списка
-                                      AppConstants.cityCountryMap.remove(cityName);
+                                      //AppConstants.cityCountryMap.addAll(cityName);
                                       //AppConstants.savePreferences();
                                     });
                                   },
@@ -144,10 +192,10 @@ class _CitiesListState extends State<CitiesList> {
                                     title: CardCities(
                                       height: 0.22,
                                       width: 0.8,
-                                      temperature: "21",
+                                      temperature: temperature,
                                       city: cityName,
                                       country: countryName,
-                                      weather: "Ясно",
+                                      weather: weather,
                                     ),
                                   ),
                                 ),
@@ -155,8 +203,7 @@ class _CitiesListState extends State<CitiesList> {
                             );
                           },
                         ),
-                ),
-                SizedBox(height: screenHeight * 0.04,),  
+                ), 
               ],
             ),
           ),

@@ -39,7 +39,7 @@ class _EmptyTopState extends State<EmptyTop> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => CitiesAdd(currentIndex: currentIndex,)),
+                MaterialPageRoute(builder: (context) => CitiesList(currentIndex: currentIndex,)),
               );
             },
             child: ColorFiltered(

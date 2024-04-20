@@ -5,7 +5,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AppConstants {
   static String url = "";
-  
+  //Список полученных городов 
+  static List<Map<String, String>> citySearch = [];
+  //Cписок полученных городов с температурой и статусом погоды
+  static List<Map<String, dynamic>> cityWeather = [];
+
+  //Список городов который используется пользователем
   static Map<String, String> cityCountryMap = {
     'Москва': 'Россия',
     'Тверь': 'Россия',

@@ -1,5 +1,6 @@
-import 'package:SkyView/Appconstants/constants.dart';
+import 'package:SkyView/pages/addcity.dart';
 import 'package:flutter/material.dart';
+import 'package:SkyView/Appconstants/constants.dart'; // Замените на имя вашего файла с экраном результатов поиска
 
 class SearchContainerWidget extends StatelessWidget {
   final double width;
@@ -9,46 +10,51 @@ class SearchContainerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Вычисляем ширину прямоугольника
     double screenWidth = MediaQuery.of(context).size.width;
-    double rectangleWidth = screenWidth * width; 
-    // Вычисляем высоту прямоугольника
+    double rectangleWidth = screenWidth * width;
     double screenHeight = MediaQuery.of(context).size.height;
     double rectangleHeight = screenHeight * height;
 
-    return Container(
-      width: rectangleWidth,
-      height: rectangleHeight,
-      padding: EdgeInsets.symmetric(horizontal: 16.0),
-      decoration: BoxDecoration(
-        color: AppConstants.backColor,
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            flex: 9,
-            child: TextField(
-              style: TextStyle(color: AppConstants.nightColor),
-              decoration: InputDecoration(
-                hintText: 'Введите местоположение',
-                hintStyle: TextStyle(
-                  color: AppConstants.nightColor, // Specify the color you want for the hint text
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SearchResultsScreen(currentIndex: 0,)),
+        );
+      },
+      child: Container(
+        width: rectangleWidth,
+        height: rectangleHeight,
+        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        decoration: BoxDecoration(
+          color: AppConstants.backColor,
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              flex: 8,
+              child: Text(
+                'Введите местоположение',
+                style: TextStyle(
+                  color: AppConstants.nightColor,
                 ),
-                border: InputBorder.none,
               ),
             ),
-          ),
-          Expanded(
-            flex: 1,
-            child: IconButton(
-              icon: const Icon(Icons.search, color: Colors.white,),
-              onPressed: () {
-                // Add your search logic here
-              },
+            Expanded(
+              flex: 2,
+              child: IconButton(
+                icon: const Icon(Icons.search, color: Colors.white,),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SearchResultsScreen(currentIndex: 0,)),
+                  );
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

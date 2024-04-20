@@ -40,7 +40,7 @@ class _TopState extends State<Top> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => CitiesAdd(currentIndex: widget.currentIndex,)),
+                MaterialPageRoute(builder: (context) => CitiesList(currentIndex: widget.currentIndex,)),
               );
             },
             child: ColorFiltered(

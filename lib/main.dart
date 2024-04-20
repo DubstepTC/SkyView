@@ -17,7 +17,7 @@ void main() async {
 
 Future<void> _loadCities(CityDataProvider cityDataProvider) async {
   try {
-    List<Map<String, String>> cities = await cityDataProvider.getCities();
+    List<Map<String, String>> cities = await cityDataProvider.getCities(null);
     // Далее вы можете обработать полученные города по вашему усмотрению
     print('Loaded cities: $cities');
   } catch (error) {
