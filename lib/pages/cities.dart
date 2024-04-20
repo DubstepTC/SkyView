@@ -1,14 +1,14 @@
-import 'package:SkyView/main.dart';
 import 'package:SkyView/pages/main_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:SkyView/Appconstants/constants.dart';
 import 'package:SkyView/widgets/cityList/card.dart';
 import 'package:SkyView/widgets/cityList/search.dart';
 import 'package:SkyView/widgets/background.dart';
-import 'package:flutter/services.dart';
 
 class CitiesAdd extends StatefulWidget {
-  CitiesAdd({Key? key}) : super(key: key);
+  final int currentIndex;
+  CitiesAdd({Key? key, required this.currentIndex}) : super(key: key);
 
   @override
   _CitiesAddState createState() => _CitiesAddState();
@@ -17,7 +17,7 @@ class CitiesAdd extends StatefulWidget {
 class _CitiesAddState extends State<CitiesAdd> {
   String searchText = '';
 
-  List<String> filteredCities() {
+  List<String> filteredCitiesList() {
     // Фильтрация городов на основе текста поиска
     return AppConstants.cityCountryMap.keys.where((city) {
       final normalizedCity = city.toLowerCase();
@@ -69,7 +69,7 @@ class _CitiesAddState extends State<CitiesAdd> {
                       InkWell(
                         onTap: () {
                           setState(() {
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MainScreen(currentIndex: 0,)));
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen(currentIndex: widget.currentIndex,)));
                           });
                         },
                         child: ColorFiltered(
@@ -91,7 +91,7 @@ class _CitiesAddState extends State<CitiesAdd> {
                   width: screenWidth * 0.95,
                   height: screenHeight * 0.80,
                   padding: const EdgeInsets.only(bottom: 16, left: 16, right: 16),
-                  child: filteredCities().isEmpty
+                  child: filteredCitiesList().isEmpty
                       ? Center(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -110,9 +110,9 @@ class _CitiesAddState extends State<CitiesAdd> {
                           )
                       )
                       : ListView.builder(
-                          itemCount: filteredCities().length,
+                          itemCount: filteredCitiesList().length,
                           itemBuilder: (context, index) {
-                            final cityName = filteredCities()[index];
+                            final cityName = filteredCitiesList()[index];
                             final countryName = AppConstants.cityCountryMap[cityName] ?? '';
                             return Column(
                               children: [
