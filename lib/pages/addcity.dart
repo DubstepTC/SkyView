@@ -1,5 +1,3 @@
-import 'package:SkyView/API/API.dart';
-import 'package:SkyView/API/YandexAPI.dart';
 import 'package:SkyView/API/openApi.dart';
 import 'package:SkyView/pages/cities.dart';
 import 'package:SkyView/widgets/cityList/card.dart';
@@ -20,8 +18,6 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
   TextEditingController searchController = TextEditingController();
 
   WeatherScreen wap = WeatherScreen();
-  WeatherInfoWidget weather = WeatherInfoWidget();
-  API api = API(); // Создайте экземпляр вашего сервиса City API
 
   @override
   Widget build(BuildContext context) {

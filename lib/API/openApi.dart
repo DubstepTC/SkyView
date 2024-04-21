@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:SkyView/Appconstants/constants.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class WeatherScreen {

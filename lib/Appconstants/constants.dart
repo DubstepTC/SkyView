@@ -5,12 +5,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AppConstants {
   static String url = "";
 
+  //Запрос
   static List<Map<String, dynamic>> cityWeather = [];
-
+  //Список городов пользователя
   static List<Map<String, dynamic>> cityCountryMap = [
     {"city": "Москва", "country": "Россия", "temperature": 8, "weather_status": "Ясно"},
     {"city": "Тверь", "country": "Россия", "temperature": 12, "weather_status": "Дождь"}
   ];
+  //Список обновляемой информации
+  static List<Map<String, dynamic>> weather = [];
 
   static Color nightColor = const Color.fromRGBO(194, 184, 255, 1.0); 
   static Color sunColor = const Color.fromRGBO(245, 255, 184, 1.0);
