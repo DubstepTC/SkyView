@@ -1,10 +1,12 @@
 import 'package:SkyView/API/API.dart';
+import 'package:SkyView/API/YandexAPI.dart';
+import 'package:SkyView/API/openApi.dart';
+import 'package:SkyView/pages/cities.dart';
 import 'package:SkyView/widgets/cityList/card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:SkyView/Appconstants/constants.dart';
 import 'package:SkyView/widgets/background.dart';
-import 'package:SkyView/API/cityAPI.dart'; // Импорт вашего сервиса City API
 
 class SearchResultsScreen extends StatefulWidget {
   final int currentIndex;
@@ -16,7 +18,10 @@ class SearchResultsScreen extends StatefulWidget {
 
 class _SearchResultsScreenState extends State<SearchResultsScreen> {
   TextEditingController searchController = TextEditingController();
-  CityDataProvider cityDataProvider = CityDataProvider(); // Создайте экземпляр вашего сервиса City API
+
+  WeatherScreen wap = WeatherScreen();
+  WeatherInfoWidget weather = WeatherInfoWidget();
+  API api = API(); // Создайте экземпляр вашего сервиса City API
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +65,9 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                       SizedBox(width: screenWidth * 0.05,),
                       InkWell(
                         onTap: () {
+                          AppConstants.cityWeather = [];
                           setState(() {
-                            Navigator.pop(context);
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CitiesList(currentIndex: 0,)));
                           });
                         },
                         child: ColorFiltered(
@@ -102,26 +108,13 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                                 ),
                               ),
                               Expanded(
-                                flex: 2,
+                                flex: 2,  
                                 child: IconButton(
                                   icon: Icon(Icons.search, color: Colors.white,),
                                   onPressed: () async {
                                     String searchText = searchController.text;
-                                    // Вызовите метод получения данных о городах
-                                    await cityDataProvider.getCities(searchText).then((cities) {
-                                      // Обработка ответа
-                                      print(AppConstants.citySearch);
-                                    }).catchError((error) {
-                                      // Обработка ошибок
-                                      print('Ошибка при получении данных о городах: $error');
-                                    });
-                                    for (int i = 0; i < AppConstants.citySearch.length; i++) {
-                                        String city = AppConstants.citySearch[i]['city']!;
-                                        String country = AppConstants.citySearch[i]['country']!;
-                                        API api = API();
-                                        Map<String, dynamic> weatherData = await api.fetchWeatherForCityAndCountry(city, country);
-                                        AppConstants.cityWeather.add(weatherData);
-                                    }
+                                    wap.getWeather(searchText);
+                                    setState(() {});
                                   },
                                 ),
                               ),
@@ -169,9 +162,18 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                                   direction: DismissDirection.horizontal, // Направление свайпа
                                   onDismissed: (direction) {
                                     setState(() {
-                                      // Удаление города из списка
-                                      //AppConstants.cityCountryMap.addAll(cityName);
-                                      //AppConstants.savePreferences();
+                                      Map<String, dynamic> cityData = {
+                                        "city": cityName,
+                                        "country": countryName,
+                                        "temperature": temperature,
+                                        "weather_status": weather,
+                                      };
+                                      AppConstants.cityWeather = [];
+                                      searchController.text = "";
+                                      //Добавление города в список
+                                      AppConstants.cityCountryMap.add(cityData);
+                                      setState((){});
+                                      AppConstants.savePreferences();
                                     });
                                   },
                                   background: Container(
@@ -183,7 +185,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                                     padding: EdgeInsets.only(
                                         left: MediaQuery.of(context).size.width * 0.60), // Добавляем отступ слева
                                     child: const Icon(
-                                      Icons.delete, // Иконка удаления
+                                      Icons.add, // Иконка удаления
                                       size: 64.0, // Увеличиваем размер иконки
                                       color: Colors.white,
                                     ), // Иконка удаления

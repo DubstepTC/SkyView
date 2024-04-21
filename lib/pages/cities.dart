@@ -17,15 +17,6 @@ class CitiesList extends StatefulWidget {
 class _CitiesListState extends State<CitiesList> {
   String searchText = '';
 
-  List<String> filteredCitiesList() {
-    // Фильтрация городов на основе текста поиска
-    return AppConstants.cityCountryMap.keys.where((city) {
-      final normalizedCity = city.toLowerCase();
-      final normalizedSearchText = searchText.toLowerCase();
-      return normalizedCity.contains(normalizedSearchText);
-    }).toList();
-  }
-
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -91,7 +82,7 @@ class _CitiesListState extends State<CitiesList> {
                   width: screenWidth * 0.95,
                   height: screenHeight * 0.80,
                   padding: const EdgeInsets.only(bottom: 16, left: 16, right: 16),
-                  child: filteredCitiesList().isEmpty
+                  child: AppConstants.cityCountryMap.isEmpty
                       ? Center(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -110,10 +101,12 @@ class _CitiesListState extends State<CitiesList> {
                           )
                       )
                       : ListView.builder(
-                          itemCount: filteredCitiesList().length,
+                          itemCount: AppConstants.cityCountryMap.length,
                           itemBuilder: (context, index) {
-                            final cityName = filteredCitiesList()[index];
-                            final countryName = AppConstants.cityCountryMap[cityName] ?? '';
+                            final cityName = AppConstants.cityCountryMap[index]["city"];
+                            final countryName = AppConstants.cityCountryMap[index]["country"] ?? '';
+                            final temperature = AppConstants.cityCountryMap[index]["temperature"].toString() ?? '-';
+                            final weather = AppConstants.cityCountryMap[index]["weather_status"] ?? '';
                             return Column(
                               children: [
                                 Dismissible(
@@ -122,8 +115,8 @@ class _CitiesListState extends State<CitiesList> {
                                   onDismissed: (direction) {
                                     setState(() {
                                       // Удаление города из списка
-                                      AppConstants.cityCountryMap.remove(cityName);
-                                      //AppConstants.savePreferences();
+                                      AppConstants.cityCountryMap.removeWhere((element) => element["city"] == cityName);
+                                      AppConstants.savePreferences();
                                     });
                                   },
                                   background: Container(
@@ -144,10 +137,10 @@ class _CitiesListState extends State<CitiesList> {
                                     title: CardCities(
                                       height: 0.22,
                                       width: 0.8,
-                                      temperature: "21",
+                                      temperature: temperature,
                                       city: cityName,
                                       country: countryName,
-                                      weather: "Ясно",
+                                      weather: weather,
                                     ),
                                   ),
                                 ),

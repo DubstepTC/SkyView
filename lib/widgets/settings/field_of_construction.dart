@@ -23,7 +23,7 @@ class _CustomContainerWidgetState extends State<CustomContainerWidget> {
       if (widget.con == 'temperature') {
         _selectedOption = AppConstants.temperature;
       } else if (widget.con == 'windSpeeed') {
-        _selectedOption = AppConstants.windSpeeed;
+        _selectedOption = AppConstants.windSpeed;
       } else if (widget.con == 'pressure'){
         _selectedOption = AppConstants.pressure;
       } else {
@@ -54,7 +54,7 @@ class _CustomContainerWidgetState extends State<CustomContainerWidget> {
                   AppConstants.temperature = option;
                   AppConstants.savePreferences();
                 } else if (globalVariable == 'windSpeeed') {
-                  AppConstants.windSpeeed = option;
+                  AppConstants.windSpeed = option;
                   AppConstants.savePreferences();
                 } else {
                   AppConstants.pressure = option;

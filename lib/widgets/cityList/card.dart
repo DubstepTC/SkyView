@@ -58,7 +58,7 @@ class CardCities extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-            int index = AppConstants.cityCountryMap.keys.toList().indexOf(city);
+            int index = AppConstants.cityCountryMap.indexWhere((element) => element["city"] == city);
             Navigator.push(
               context,
               MaterialPageRoute(
