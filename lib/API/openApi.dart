@@ -15,7 +15,7 @@ class WeatherScreen {
     // Добавьте другие переводы состояний погоды по мере необходимости
   };
 
-  void getWeather(String city) async {
+  Future getWeather(String city) async {
     var response = await http.get(Uri.parse('$baseApiUrl?key=$apiKey&q=$city'));
     
     if (response.statusCode == 200) {

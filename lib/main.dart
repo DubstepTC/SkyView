@@ -1,31 +1,62 @@
+import 'package:SkyView/API/futureApi.dart';
 import 'package:SkyView/API/updateApi.dart';
 import 'package:flutter/material.dart';
 import 'package:SkyView/pages/main_page.dart';
 import 'package:SkyView/Appconstants/constants.dart';
+import 'package:intl/intl.dart';  
 
 void main() async {
-  Updateapi weather = Updateapi();
   WidgetsFlutterBinding.ensureInitialized();
   await AppConstants.initialize();
+  
+  FutureApi future = FutureApi();
+  Updateapi weather = Updateapi();
 
-  List<String> cities = [];
-  for (var map in AppConstants.cityCountryMap) {
-      cities.add(map["city"]);
-  }
-  print("--------------------------------------------------------");
-  print(cities);
+  // Создаем список Future для запуска функций асинхронно
+  List<Future> futures = [];
+  List<Map<String, dynamic>> days = forecastForFiveDays();
 
   for (var cityMap in AppConstants.cityCountryMap) {
     String city = cityMap["city"];
-    await weather.getWeather(city);
-    print(AppConstants.weather);
+    var weatherMain = await weather.getWeather(city);
+    if (weatherMain != null) {
+        futures.add(weatherMain);
+    }
   }
 
-  print("City");
-  print(AppConstants.weather);
+  for (var day in days) {
+    String city = day["city"];
+    String date = day["date"];
+    var weather = await future.getWeather(city, date);
+    if (weather != null) {
+        futures.add(weather);
+    }
+  }
+
+  // Дожидаемся завершения всех асинхронных операций
+  await Future.wait(futures);
 
   runApp(const MainApp());
-  
+}
+
+List<Map<String, dynamic>> forecastForFiveDays() {
+  List<Map<String, dynamic>> days = [];
+  DateTime today = DateTime.now();
+
+  for (var cityMap in AppConstants.cityCountryMap) {
+    String city = cityMap["city"];
+    for (int i = 0; i <= 4; i++) {
+      DateTime nextDate = today.add(Duration(days: i));
+      DateFormat formatter = DateFormat('yyyy-MM-dd');
+      String formattedDate = formatter.format(nextDate);
+      Map<String, dynamic> future = {
+        "city": city,
+        "date": formattedDate
+      };
+      days.add(future);
+    }
+  }
+  return days;
 }
 
 class MainApp extends StatelessWidget {
@@ -33,7 +64,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: PopScope(
         child: MainScreen(currentIndex: 0,),
       ),

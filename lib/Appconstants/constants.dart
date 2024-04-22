@@ -14,6 +14,8 @@ class AppConstants {
   ];
   //Список обновляемой информации
   static List<Map<String, dynamic>> weather = [];
+  //Список прогнозов на 5 дней 
+  static List<Map<String, dynamic>> data = [];
 
   static Color nightColor = const Color.fromRGBO(194, 184, 255, 1.0); 
   static Color sunColor = const Color.fromRGBO(245, 255, 184, 1.0);

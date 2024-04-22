@@ -99,7 +99,7 @@ class CardCities extends StatelessWidget {
                         )
                       ),
                       Expanded(
-                        child:  weatherHelper.buildWeatherImage(weather)
+                        child: weatherHelper.buildWeatherImage(weather)
                       ),
                     ],
                   )

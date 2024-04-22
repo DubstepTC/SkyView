@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:SkyView/Appconstants/constants.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class Updateapi {
@@ -12,7 +11,8 @@ class Updateapi {
     'Clear': 'Ясно',
     'Partly cloudy': 'Переменная облачность',
     'Cloudy': 'Облачно',
-    'Sunny': 'Солнечно',
+    'Sunny': 'Солнечно',   
+    'Patchy rain nearby': 'Мелкий дождь',
     // Добавьте другие переводы состояний погоды по мере необходимости
   };
 
@@ -93,7 +93,7 @@ class Updateapi {
         'humidity': data['current']['humidity'],
         'uv': data['current']['uv'],
       });
-    updateWeatherForCities(cities);
+      updateWeatherForCities(cities);
       cities = [];
     } else {
       print("Ошибка при получении данных о погоде");
