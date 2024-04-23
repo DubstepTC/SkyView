@@ -44,14 +44,14 @@ class Updateapi {
       }
       else if (AppConstants.windSpeed == "Метры в секунду") {
         double s = data['current']['wind_kph'];
-        wind = ((s * 1000 / 3600).round() / 100).toString();
+        wind = ((s * 1000 / 3600 * 10).round() / 10).toString();
       }
       else if (AppConstants.windSpeed == "Мили в час") {
         wind = (data['current']['wind_mph']).toString();
       }
       else if (AppConstants.windSpeed == "Шкала Бофорта") {
-        double s = data['current']['wind_kph'];
-        s = (s / 1.852 * 100).round() / 100;
+        int s = int.parse(data['current']['wind_kph']);
+        s = (s * 0.539957).round();
         if (s < 1) {
           wind = "0";
         } else if (s >= 1 && s <= 3) {
@@ -80,13 +80,14 @@ class Updateapi {
       }
       else {
         double s = data['current']['wind_kph'];
-        wind = ((s / 1.852).round()).toString();
+        wind = ((s * 0.539957 * 10).round() / 10).toString();
       }
 
       cities.add({
         'city': data['location']['name'],
         'country': data['location']['country'],
         'temperature': t,
+        'speed': data['current']['wind_kph'],
         'weather_status': translatedWeatherStatus,
         'pressure_mb': data['current']['pressure_mb'],
         'wind_kph': wind,

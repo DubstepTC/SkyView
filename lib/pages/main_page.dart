@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:SkyView/Appconstants/constants.dart';
@@ -36,7 +37,8 @@ class _MainScreenState extends State<MainScreen> {
 
     return WillPopScope(
       onWillPop: () async {
-        return false;
+        SystemNavigator.pop(animated: true);
+        return true;
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,

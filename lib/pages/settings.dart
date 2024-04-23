@@ -1,9 +1,16 @@
+import 'package:SkyView/API/futureApi.dart';
+import 'package:SkyView/API/updateApi.dart';
+import 'package:SkyView/Appconstants/constants.dart';
+import 'package:SkyView/function/temperature.dart';
+import 'package:SkyView/function/speed.dart';
+import 'package:SkyView/pages/main_page.dart';
 import 'package:SkyView/widgets/estimation.dart';
 import 'package:SkyView/widgets/privacy_policy.dart';
 import 'package:SkyView/widgets/settings/field_of_construction.dart';
 import 'package:flutter/material.dart';
 import 'package:SkyView/widgets/background.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -16,9 +23,10 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   int currentIndex = 0;
   
-  
 @override
 Widget build(BuildContext context) {
+  Speedtranslation speed = Speedtranslation();
+  Temperaturetranslation temperature = Temperaturetranslation();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -59,8 +67,11 @@ Widget build(BuildContext context) {
                   children: [
                     SizedBox(width: screenWidth * 0.05,),
                     InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
+                      onTap: () async {
+                        await speed.updateList();
+                        await temperature.updateList();
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MainScreen(currentIndex: 0,)));
+                        setState(() {});
                       },
                       child: ColorFiltered(
                         colorFilter: ColorFilter.mode(const Color.fromARGB(255, 255, 255, 255), BlendMode.modulate), // Замените Colors.red на нужный вам цвет
