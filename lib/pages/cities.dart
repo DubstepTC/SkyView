@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:SkyView/API/updateApi.dart';
 import 'package:SkyView/pages/main_page.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +35,8 @@ class _CitiesListState extends State<CitiesList> {
           String city = cityMap["city"];
           await weather.getWeather(city);
         }
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen(currentIndex: widget.currentIndex,)));                   
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen(currentIndex: widget.currentIndex,)));   
+        setState(() {});                
         return true;
       },
       child: Scaffold(

@@ -14,7 +14,6 @@ class Top extends StatefulWidget {
 
 
   @override
-  // ignore: library_private_types_in_public_api
   _TopState createState() => _TopState();
 }
 
@@ -39,10 +38,8 @@ class _TopState extends State<Top> {
           SizedBox(width:  rectangleWidth * 0.05,),
           InkWell(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CitiesList(currentIndex: widget.currentIndex,)),
-              );
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CitiesList(currentIndex: widget.currentIndex,)));
+              setState(() {});
             },
             child: ColorFiltered(
               colorFilter: ColorFilter.mode(const Color.fromARGB(255, 255, 255, 255), BlendMode.modulate), // Замените Colors.red на нужный вам цвет

@@ -51,7 +51,6 @@ class Speedtranslation {
         AppConstants.weather[i]["wind_kph"] = ((speed * 0.539957 * 10).round() / 10).toString();
       }
       else {
-        print("Error");
       }
     } 
   }

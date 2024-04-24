@@ -3,7 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppConstants {
-  static String url = "";
+  static Map<String, String> weatherStatusTranslations = {
+    'Clear': 'Ясно',
+    'Partly cloudy': 'Переменная облачность',
+    'Cloudy': 'Облачно',
+    'Sunny': 'Солнечно',
+    'Patchy rain nearby': 'Мелкий дождь',
+    // Добавьте другие переводы состояний погоды по мере необходимости
+  };
 
   //Запрос
   static List<Map<String, dynamic>> cityWeather = [];

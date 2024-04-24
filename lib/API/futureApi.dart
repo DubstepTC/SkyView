@@ -9,14 +9,7 @@ class FutureApi {
   final String baseApiUrl = 'http://api.weatherapi.com/v1/forecast.json';
   List<Map<String, dynamic>> cities = [];
 
-  Map<String, String> weatherStatusTranslations = {
-    'Clear': 'Ясно',
-    'Partly cloudy': 'Переменная облачность',
-    'Cloudy': 'Облачно',
-    'Sunny': 'Солнечно',
-    'Patchy rain nearby': 'Мелкий дождь',
-    // Добавьте другие переводы состояний погоды по мере необходимости
-  };
+  Map<String, String> weatherStatusTranslations = AppConstants.weatherStatusTranslations;
 
   Future getWeather(String city, String date) async {
     var response = await http.get(Uri.parse('$baseApiUrl?key=$apiKey&q=$city&date=$date'));

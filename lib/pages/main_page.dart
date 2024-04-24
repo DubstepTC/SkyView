@@ -37,6 +37,7 @@ class _MainScreenState extends State<MainScreen> {
 
     return WillPopScope(
       onWillPop: () async {
+        Navigator.of(context).popUntil((route) => route.isFirst);
         SystemNavigator.pop(animated: true);
         return true;
       },

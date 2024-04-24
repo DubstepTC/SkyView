@@ -36,6 +36,13 @@ void main() async {
   // Дожидаемся завершения всех асинхронных операций
   await Future.wait(futures);
 
+  for(int i = 0; i < AppConstants.cityCountryMap.length; i++){
+    if (AppConstants.cityCountryMap[i]["city"] == AppConstants.weather[i]["city"]){
+      AppConstants.cityCountryMap[i]["temperature"] = AppConstants.weather[i]["temperature"];
+      AppConstants.cityCountryMap[i]["weather_status"] = AppConstants.weather[i]["weather_status"];
+    }
+  }
+
   runApp(const MainApp());
 }
 

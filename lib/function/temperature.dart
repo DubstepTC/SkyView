@@ -6,7 +6,7 @@ class Temperaturetranslation {
     String temp = AppConstants.temperature;
     Future updateList() async {
     if (AppConstants.temperature == "°C" && temp != AppConstants.temperature){  
-
+      //Главная страница
       for (int i = 0; i < AppConstants.weather.length; i++){
         int t = AppConstants.weather[i]['temperature'];
 
@@ -25,10 +25,20 @@ class Temperaturetranslation {
         AppConstants.data[i]["temperature_max"] = t_max;
         AppConstants.data[i]["temperature_min"] = t_min;
       }
+
+      //Список городов
+      for (int i = 0; i < AppConstants.cityCountryMap.length; i++){
+         
+        int tem = AppConstants.cityCountryMap[i]['temperature'];
+
+        tem = ((tem - 32) / 1.8).round();
+
+        AppConstants.cityCountryMap[i]['temperature'] = tem;
+      }
     
     }
     else if (AppConstants.temperature == "°F" && temp != AppConstants.temperature ) { 
-
+      //Главная страница
       for (int i = 0; i < AppConstants.weather.length; i++){
         int t = AppConstants.weather[i]['temperature'];
 
@@ -46,6 +56,16 @@ class Temperaturetranslation {
 
         AppConstants.data[i]["temperature_max"] = t_max;
         AppConstants.data[i]["temperature_min"] = t_min;
+      }
+
+      //Список городов
+
+      for (int i = 0; i < AppConstants.cityCountryMap.length; i++){
+        int tem = AppConstants.cityCountryMap[i]['temperature'];
+
+        tem = (tem * 1.8 + 32).round();
+
+        AppConstants.cityCountryMap[i]['temperature'] = tem;
       }
     }
   }
