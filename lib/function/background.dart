@@ -4,7 +4,7 @@ class BackgroundHelper {
   Widget buildWeatherImage(String weather) {
     switch (weather) {
       case 'Ясно':
-        return Image.asset("assets/signs/clear.png");
+        return Image.asset("assets/images/background_clear.png");
       case 'Солнечно':
         return Image.asset("assets/signs/clear.png");
       case 'Дождь':

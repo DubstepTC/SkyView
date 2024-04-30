@@ -8,7 +8,7 @@ import 'package:SkyView/widgets/frame/strip.dart';
 import 'package:SkyView/widgets/frame/table.dart';
 import 'package:SkyView/widgets/main/emty.dart';
 import 'package:SkyView/widgets/main/topbar.dart';
-
+ 
 class MainScreen extends StatefulWidget {
   final int currentIndex;
 

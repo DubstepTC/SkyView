@@ -9,16 +9,14 @@ class AppConstants {
     'Cloudy': 'Облачно',
     'Sunny': 'Солнечно',
     'Patchy rain nearby': 'Мелкий дождь',
+    'Light rain': 'Небольшой дождь',
     // Добавьте другие переводы состояний погоды по мере необходимости
   };
 
   //Запрос
   static List<Map<String, dynamic>> cityWeather = [];
   //Список городов пользователя
-  static List<Map<String, dynamic>> cityCountryMap = [
-    {"city": "Москва", "country": "Россия", "temperature": 8, "weather_status": "Ясно"},
-    {"city": "Тверь", "country": "Россия", "temperature": 12, "weather_status": "Дождь"}
-  ];
+  static List<Map<String, dynamic>> cityCountryMap = [];
   //Список обновляемой информации
   static List<Map<String, dynamic>> weather = [];
   //Список прогнозов на 5 дней 

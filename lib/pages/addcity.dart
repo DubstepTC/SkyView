@@ -16,35 +16,6 @@ class SearchResultsScreen extends StatefulWidget {
   _SearchResultsScreenState createState() => _SearchResultsScreenState();
 }
 
-List<Map<String, dynamic>> forecastForFiveDays() {
-  List<Map<String, dynamic>> days = [];
-  DateTime today = DateTime.now();
-
-  for (var cityMap in AppConstants.cityCountryMap) {
-    String city = cityMap["city"];
-    for (int i = 0; i <= 4; i++) {
-      DateTime nextDate = today.add(Duration(days: i));
-      DateFormat formatter = DateFormat('yyyy-MM-dd');
-      String formattedDate = formatter.format(nextDate);
-      Map<String, dynamic> future = {
-        "city": city,
-        "date": formattedDate
-      };
-      days.add(future);
-    }
-  }
-  return days;
-}
-void updateList() async {
-  FutureApi future = FutureApi();
-  List<Map<String, dynamic>> days = forecastForFiveDays();
-  for (var day in days) {
-    String city = day["city"];
-    String date = day["date"];
-    await future.getWeather(city, date);
-  }
-}
-
 class _SearchResultsScreenState extends State<SearchResultsScreen> {
   TextEditingController searchController = TextEditingController();
 
@@ -100,7 +71,6 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                         SizedBox(width: screenWidth * 0.05,),
                         InkWell(
                           onTap: () {
-                            AppConstants.cityWeather = [];
                             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CitiesList(currentIndex: 0,)));
                             setState(() {});
                           },
@@ -196,7 +166,6 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                                     direction: DismissDirection.horizontal, // Направление свайпа
                                     onDismissed: (direction) {
                                       setState(() {
-                                        updateList();
                                         Map<String, dynamic> cityData = {
                                           "city": cityName,
                                           "country": countryName,

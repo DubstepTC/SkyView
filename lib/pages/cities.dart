@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:SkyView/API/futureApi.dart';
 import 'package:SkyView/API/updateApi.dart';
 import 'package:SkyView/pages/main_page.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:SkyView/Appconstants/constants.dart';
 import 'package:SkyView/widgets/cityList/card.dart';
 import 'package:SkyView/widgets/cityList/search.dart';
 import 'package:SkyView/widgets/background.dart';
+import 'package:intl/intl.dart';  
 
 class CitiesList extends StatefulWidget {
   final int currentIndex;
@@ -17,10 +19,47 @@ class CitiesList extends StatefulWidget {
 }
 
 class _CitiesListState extends State<CitiesList> {
+  Updateapi weather = Updateapi();
+
+  Future up() async{
+    for (var cityMap in AppConstants.cityCountryMap) {
+      String city = cityMap["city"];
+      await weather.getWeather(city);
+    }
+  }
+
+  List<Map<String, dynamic>> forecastForFiveDays() {
+    List<Map<String, dynamic>> days = [];
+    DateTime today = DateTime.now();
+
+    for (var cityMap in AppConstants.cityCountryMap) {
+      String city = cityMap["city"];
+      for (int i = 0; i <= 4; i++) {
+        DateTime nextDate = today.add(Duration(days: i));
+        DateFormat formatter = DateFormat('yyyy-MM-dd');
+        String formattedDate = formatter.format(nextDate);
+        Map<String, dynamic> future = {
+          "city": city,
+          "date": formattedDate
+        };
+        days.add(future);
+      }
+    }
+    return days;
+  }
+
+  Future updateList() async {
+    FutureApi future = FutureApi();
+    List<Map<String, dynamic>> days = forecastForFiveDays();
+    for (var day in days) {
+      String city = day["city"];
+      String date = day["date"];
+      await future.getWeather(city, date);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    Updateapi weather = Updateapi();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -71,11 +110,19 @@ class _CitiesListState extends State<CitiesList> {
                         SizedBox(width: screenWidth * 0.05,),
                         InkWell(
                           onTap: () async {
-                            //Погода в городах 
-                            for (var cityMap in AppConstants.cityCountryMap) {
-                              String city = cityMap["city"];
-                              await weather.getWeather(city);
-                            }
+                            AppConstants.weather = [];
+                            AppConstants.data = [];
+                            //Погода в городах  
+                            print("main");
+                            print(AppConstants.weather);
+                            print("table");
+                            print(AppConstants.data);
+                            await up();
+                            await updateList();
+                            print("main");
+                            print(AppConstants.weather);
+                            print("table");
+                            print(AppConstants.data);
                             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen(currentIndex: widget.currentIndex,)));
                             setState(() {});
                           },
@@ -131,6 +178,8 @@ class _CitiesListState extends State<CitiesList> {
                                     onDismissed: (direction) {
                                       setState(() {
                                         // Удаление города из списка
+                                        AppConstants.weather.removeWhere((element) => element["city"] == cityName);
+                                        AppConstants.data.removeWhere((element) => element["city"] == cityName);
                                         AppConstants.cityCountryMap.removeWhere((element) => element["city"] == cityName);
                                         AppConstants.savePreferences();
                                       });
