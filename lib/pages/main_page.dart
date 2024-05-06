@@ -1,14 +1,13 @@
-import 'dart:io';
+import 'package:SkyView/function/background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:SkyView/Appconstants/constants.dart';
-import 'package:SkyView/widgets/background.dart';
 import 'package:SkyView/widgets/frame/main_frame.dart';
 import 'package:SkyView/widgets/frame/strip.dart';
 import 'package:SkyView/widgets/frame/table.dart';
 import 'package:SkyView/widgets/main/emty.dart';
 import 'package:SkyView/widgets/main/topbar.dart';
- 
+
 class MainScreen extends StatefulWidget {
   final int currentIndex;
 
@@ -20,16 +19,23 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   late PageController _pageController;
+  late int index = 0;
+  double opacity = 1.0;
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: widget.currentIndex);
+    _pageController.addListener(() {
+      setState(() {
+        opacity = 0.5;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    
+
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -45,15 +51,31 @@ class _MainScreenState extends State<MainScreen> {
         resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
-            const Background(
-              height: 1,
-              width: 1,
-              picture: "assets/images/background_night.jpg",
-            ),
             Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               decoration: const BoxDecoration(
+                color: Color.fromRGBO(194, 184, 255, 1.0),
+              ),
+            ),
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 250),
+              curve: Curves.easeInOut,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                    AppConstants.weather.isEmpty ? "assets/images/background_night.jpg" : BackgroundHelper().buildWeatherImage(AppConstants.weather[index]["weather_status"]),
+                  ),
+                  fit: BoxFit.cover,
+                  alignment: Alignment.topCenter,
+                  scale: opacity * 0.5 + 1,
+                ),
+              ),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              decoration: BoxDecoration(
                 color: Color.fromRGBO(0, 0, 0, 0.5),
               ),
             ),
@@ -61,31 +83,55 @@ class _MainScreenState extends State<MainScreen> {
               controller: _pageController,
               itemCount: AppConstants.cityCountryMap.isNotEmpty
                   ? AppConstants.cityCountryMap.length
-                  : 1, // Display another screen if the list is empty
-              onPageChanged: (index) {
-                // No need to setState here
+                  : 1,
+              onPageChanged: (pageIndex) {
+                setState(() {
+                  index = pageIndex;
+                });
               },
               itemBuilder: (context, index) {
                 if (AppConstants.cityCountryMap.isNotEmpty) {
-                  return SizedBox(
+                  return AnimatedContainer(
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.bounceIn,
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(height: MediaQuery.of(context).size.height * 0.04,),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.04,
+                        ),
                         Top(
-                          width: 1, 
-                          height: 0.08, 
+                          width: 1,
+                          height: 0.08,
                           currentIndex: index,
                         ),
-                        SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
-                        MainFrame(width: 0.7, height: 0.32, currentIndex: index,),
-                        SizedBox(height: MediaQuery.of(context).size.height * 0.04,),
-                        StripFarme(width: 0.9, height: 0.06, currentIndex: index,),
-                        SizedBox(height: MediaQuery.of(context).size.height * 0.04,),
-                        TableFrame(width: 0.96, height: 0.4, currentIndex: index,),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.02,
+                        ),
+                        MainFrame(
+                          width: 0.7,
+                          height: 0.32,
+                          currentIndex: index,
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.04,
+                        ),
+                        StripFarme(
+                          width: 0.9,
+                          height: 0.06,
+                          currentIndex: index,
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.04,
+                        ),
+                        TableFrame(
+                          width: 0.96,
+                          height: 0.4,
+                          currentIndex: index,
+                        ),
                       ],
                     ),
                   );
@@ -96,13 +142,17 @@ class _MainScreenState extends State<MainScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(height: MediaQuery.of(context).size.height * 0.04,),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.04,
+                        ),
                         EmptyTop(
-                          width: 1, 
-                          height: 0.08, 
+                          width: 1,
+                          height: 0.08,
                           currentIndex: index,
                         ),
-                        SizedBox(height: MediaQuery.of(context).size.height * 0.32,),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.32,
+                        ),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.95,
                           height: MediaQuery.of(context).size.height * 0.56,

@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 
 class BackgroundHelper {
-  Widget buildWeatherImage(String weather) {
+  String buildWeatherImage(String weather) {
     switch (weather) {
       case 'Ясно':
-        return Image.asset("assets/images/background_clear.png");
+        return "assets/images/background_clear.jpg";
       case 'Солнечно':
-        return Image.asset("assets/signs/clear.png");
+        return "assets/images/background_clear.jpg";
       case 'Дождь':
-        return Image.asset("assets/signs/rain.png");
+        return "assets/images/background_rain.jpg";
       case 'Снег':
-        return Image.asset("assets/signs/snow.png");
+        return "assets/images/background_snowfall.jpg";
       case 'Переменная облачность':
       case 'Облачно':
-       return Image.asset("assets/signs/cloud.png");
+       return "assets/images/background_cloudy.jpg";
       case 'Гроза':
-        return Image.asset("assets/signs/thundaerstorm.png");
+        return "assets/images/background_thunderstorm.jpg";
       default:
-        return Image.asset("assets/signs/month.png");
+        return "assets/images/background_night.jpg";
     }
   }
 }

@@ -70,10 +70,10 @@ class _CitiesListState extends State<CitiesList> {
 
     return WillPopScope(
       onWillPop: () async {
-        for (var cityMap in AppConstants.cityCountryMap) {
-          String city = cityMap["city"];
-          await weather.getWeather(city);
-        }
+        AppConstants.weather = [];
+        AppConstants.data = [];
+        await up();
+        await updateList();
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen(currentIndex: widget.currentIndex,)));   
         setState(() {});                
         return true;
@@ -112,17 +112,8 @@ class _CitiesListState extends State<CitiesList> {
                           onTap: () async {
                             AppConstants.weather = [];
                             AppConstants.data = [];
-                            //Погода в городах  
-                            print("main");
-                            print(AppConstants.weather);
-                            print("table");
-                            print(AppConstants.data);
                             await up();
                             await updateList();
-                            print("main");
-                            print(AppConstants.weather);
-                            print("table");
-                            print(AppConstants.data);
                             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen(currentIndex: widget.currentIndex,)));
                             setState(() {});
                           },
