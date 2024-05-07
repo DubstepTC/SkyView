@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:SkyView/API/futureApi.dart';
 import 'package:SkyView/API/openApi.dart';
 import 'package:SkyView/pages/cities.dart';
@@ -18,6 +20,10 @@ class SearchResultsScreen extends StatefulWidget {
 
 class _SearchResultsScreenState extends State<SearchResultsScreen> {
   TextEditingController searchController = TextEditingController();
+
+  Future add(cityData) async{
+    AppConstants.cityCountryMap.add(cityData);
+  } 
 
   WeatherScreen wap = WeatherScreen();
 
@@ -165,7 +171,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                                     key: Key(cityName), // Уникальный ключ для элемента списка
                                     direction: DismissDirection.horizontal, // Направление свайпа
                                     onDismissed: (direction) {
-                                      setState(() {
+                                      setState(() async {
                                         Map<String, dynamic> cityData = {
                                           "city": cityName,
                                           "country": countryName,
@@ -175,7 +181,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                                         AppConstants.cityWeather = [];
                                         searchController.text = "";
                                         //Добавление города в список
-                                        AppConstants.cityCountryMap.add(cityData);
+                                        await add(cityData);
                                         setState((){});
                                         AppConstants.savePreferences();
                                       });

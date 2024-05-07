@@ -19,7 +19,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   late PageController _pageController;
-  late int index = 0;
+  late int index = widget.currentIndex;
   double opacity = 1.0;
 
   @override

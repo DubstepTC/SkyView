@@ -3,16 +3,18 @@ import 'package:SkyView/API/updateApi.dart';
 import 'package:flutter/material.dart';
 import 'package:SkyView/pages/main_page.dart';
 import 'package:SkyView/Appconstants/constants.dart';
-import 'package:intl/intl.dart';  
+import 'package:intl/intl.dart';
+import 'package:SkyView/pages/start/entry.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppConstants.initialize();
-  
+  runApp(MainApp());
+}
+
+Future<void> _loadData() async {
   FutureApi future = FutureApi();
   Updateapi weather = Updateapi();
-
-  // Создаем список Future для запуска функций асинхронно
   List<Future> futures = [];
   List<Map<String, dynamic>> days = forecastForFiveDays();
 
@@ -32,8 +34,6 @@ void main() async {
         futures.add(weather);
     }
   }
-
-  // Дожидаемся завершения всех асинхронных операций
   await Future.wait(futures);
 
   for(int i = 0; i < AppConstants.cityCountryMap.length; i++){
@@ -42,8 +42,6 @@ void main() async {
       AppConstants.cityCountryMap[i]["weather_status"] = AppConstants.weather[i]["weather_status"];
     }
   }
-
-  runApp(const MainApp());
 }
 
 List<Map<String, dynamic>> forecastForFiveDays() {
@@ -67,13 +65,20 @@ List<Map<String, dynamic>> forecastForFiveDays() {
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: PopScope(
-        child: MainScreen(currentIndex: 0,),
+    return MaterialApp(
+      home: Scaffold(
+        body: FutureBuilder(
+          future: _loadData(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Entry();
+            } else {
+              return MainScreen(currentIndex: 0);
+            }
+          },
+        ),
       ),
       debugShowCheckedModeBanner: false,
     );
