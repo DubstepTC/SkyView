@@ -1,14 +1,19 @@
 import 'package:SkyView/API/futureApi.dart';
 import 'package:SkyView/API/updateApi.dart';
+import 'package:SkyView/pages/start/firstentry/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:SkyView/pages/main_page.dart';
 import 'package:SkyView/Appconstants/constants.dart';
 import 'package:intl/intl.dart';
 import 'package:SkyView/pages/start/entry.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppConstants.initialize();
+  
+
   runApp(MainApp());
 }
 
@@ -72,10 +77,15 @@ class MainApp extends StatelessWidget {
         body: FutureBuilder(
           future: _loadData(),
           builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Entry();
-            } else {
-              return MainScreen(currentIndex: 0);
+            if(AppConstants.welcome == "true"){
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Entry();
+              } else {
+                return MainScreen(currentIndex: 0);
+              }
+            }
+            else {
+              return WelcomePage();
             }
           },
         ),
@@ -84,3 +94,4 @@ class MainApp extends StatelessWidget {
     );
   }
 }
+

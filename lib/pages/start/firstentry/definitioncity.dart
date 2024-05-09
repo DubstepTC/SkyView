@@ -1,29 +1,72 @@
 import 'dart:async';
+import 'package:SkyView/API/futureApi.dart';
 import 'package:SkyView/API/openApi.dart';
-import 'package:SkyView/pages/cities.dart';
+import 'package:SkyView/API/updateApi.dart';
+import 'package:SkyView/pages/main_page.dart';
 import 'package:SkyView/widgets/cityList/card.dart';
 import 'package:SkyView/widgets/citybutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:SkyView/Appconstants/constants.dart';
 import 'package:SkyView/widgets/background.dart';
+import 'package:intl/intl.dart';
 
-class SearchResultsScreen extends StatefulWidget {
-  final int currentIndex;
-  SearchResultsScreen({Key? key, required this.currentIndex}) : super(key: key);
+class DefinitionCity extends StatefulWidget {
+  DefinitionCity({Key? key}) : super(key: key);
 
   @override
-  _SearchResultsScreenState createState() => _SearchResultsScreenState();
+  _DefinitionCityState createState() => _DefinitionCityState();
 }
 
-class _SearchResultsScreenState extends State<SearchResultsScreen> {
+class _DefinitionCityState extends State<DefinitionCity> {
   TextEditingController searchController = TextEditingController();
+  Updateapi weather = Updateapi();
 
   Future add(cityData) async{
     AppConstants.cityCountryMap.add(cityData);
   } 
 
   WeatherScreen wap = WeatherScreen();
+
+  Future up() async{
+    for (var cityMap in AppConstants.cityCountryMap) {
+      String city = cityMap["city"];
+      await weather.getWeather(city);
+    }
+  }
+
+  List<Map<String, dynamic>> forecastForFiveDays() {
+    List<Map<String, dynamic>> days = [];
+    DateTime today = DateTime.now();
+
+    for (var cityMap in AppConstants.cityCountryMap) {
+      String city = cityMap["city"];
+      for (int i = 0; i <= 4; i++) {
+        DateTime nextDate = today.add(Duration(days: i));
+        DateFormat formatter = DateFormat('yyyy-MM-dd');
+        String formattedDate = formatter.format(nextDate);
+        Map<String, dynamic> future = {
+          "city": city,
+          "date": formattedDate
+        };
+        days.add(future);
+      }
+    }
+    return days;
+  }
+
+  Future updateList() async {
+    FutureApi future = FutureApi();
+    List<Map<String, dynamic>> days = forecastForFiveDays();
+    for (var day in days) {
+      String city = day["city"];
+      String date = day["date"];
+      await future.getWeather(city, date);
+    }
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen(currentIndex: 0)));
+    setState(() {});
+    AppConstants.savePreferences();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +80,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
 
     return WillPopScope(
       onWillPop: () async {
-        AppConstants.cityWeather = [];
-          setState(() {
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CitiesList(currentIndex: 0,)));
-          });
-        return true;
+        return false;
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -73,20 +112,6 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(width: screenWidth * 0.05,),
-                        InkWell(
-                          onTap: () {
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CitiesList(currentIndex: 0,)));
-                            setState(() {});
-                          },
-                          child: ColorFiltered(
-                            colorFilter: ColorFilter.mode(const Color.fromARGB(255, 255, 255, 255), BlendMode.modulate),
-                            child: SizedBox(
-                              width: screenWidth * 0.10,
-                              height: screenHeight,
-                              child: Image.asset("assets/images/arrow.png"),
-                            ),
-                          ),
-                        ),
                         SizedBox(width: screenWidth * 0.04,),
                         Expanded(
                           child: Container(
@@ -166,7 +191,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                                     key: Key(cityName), // Уникальный ключ для элемента списка
                                     direction: DismissDirection.horizontal, // Направление свайпа
                                     onDismissed: (direction) {
-                                      setState(() async {
+                                      setState(() {
                                         Map<String, dynamic> cityData = {
                                           "city": cityName,
                                           "country": countryName,
@@ -176,9 +201,12 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                                         AppConstants.cityWeather = [];
                                         searchController.text = "";
                                         //Добавление города в список
-                                        await add(cityData);
-                                        setState((){});
-                                        AppConstants.savePreferences();
+                                        add(cityData).then((_) {
+                                          up().then((_) {
+                                            updateList().then((_) {
+                                            });
+                                          });
+                                        });
                                       });
                                     },
                                     background: Container(
@@ -190,10 +218,10 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                                       padding: EdgeInsets.only(
                                           left: MediaQuery.of(context).size.width * 0.60), // Добавляем отступ слева
                                       child: const Icon(
-                                        Icons.add, // Иконка удаления
-                                        size: 64.0, // Увеличиваем размер иконки
+                                        Icons.add, 
+                                        size: 64.0, 
                                         color: Colors.white,
-                                      ), // Иконка удаления
+                                      ),
                                     ),
                                     child: ListTile(
                                       title: CardCities(
@@ -210,7 +238,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                               );
                             },
                           ),
-                  ), 
+                  ),
                 ],
               ),
             ),

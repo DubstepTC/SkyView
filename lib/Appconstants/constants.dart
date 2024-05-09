@@ -12,7 +12,18 @@ class AppConstants {
     'Light rain': 'Небольшой дождь',
     // Добавьте другие переводы состояний погоды по мере необходимости
   };
-
+  //Популярные города 
+  static List<String> popularCities = [
+    'Москва', 'Нью-Йорк', 'Токио', 'Лондон', 'Пекин', 
+    'Париж', 'Берлин', 'Сеул', 'Дубай', 'Дели', 
+    'Шанхай', 'Сан-Паулу', 'Мехико', 'Каир', 'Истанбул',
+  ];
+  //Список температур
+  static List<double> tempList = [
+    20.1, 21.2, 22.3, 23.4, 24.5, 25.6, 26.7, 27.8, 28.9,
+    29.0, 30.1, 31.2, 32.3, 33.4, 34.5, 35.6, 36.7, 37.8,
+    38.9, 39.0, 40.1, 41.2, 42.3, 43.4,
+  ];
   //Запрос
   static List<Map<String, dynamic>> cityWeather = [];
   //Список городов пользователя
@@ -30,6 +41,8 @@ class AppConstants {
   static String windSpeed = ""; // Исправлено название переменной
   static String pressure = "";
 
+  static String welcome = "false";
+
   static late SharedPreferences _preferences;
 
   static Future<void> initialize() async {
@@ -37,6 +50,7 @@ class AppConstants {
     temperature = _preferences.getString('temperature') ?? "°C";
     windSpeed = _preferences.getString('windSpeed') ?? "Километры в час"; // Исправлено название переменной
     pressure = _preferences.getString('pressure') ?? "Миллиметр ртутного столба (мм рт. ст)";
+    welcome = _preferences.getString("welcome")?? "false";
 
     String? cityCountryMapAsString = _preferences.getString('cityCountryMap');
     if (cityCountryMapAsString != null) {
@@ -52,6 +66,7 @@ class AppConstants {
     await _preferences.setString('temperature', temperature);
     await _preferences.setString('windSpeed', windSpeed); // Исправлено название переменной
     await _preferences.setString('pressure', pressure);
+    await _preferences.setString('welcome', welcome);
 
     String cityCountryMapAsString = jsonEncode(cityCountryMap);
     await _preferences.setString('cityCountryMap', cityCountryMapAsString);

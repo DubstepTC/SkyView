@@ -91,7 +91,7 @@ class _CitiesListState extends State<CitiesList> {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               decoration: const BoxDecoration(
-                color: Color.fromRGBO(0, 0, 0, 0.5),
+                color: Color.fromRGBO(0, 0, 0, 0.6),
               ),
             ),
             SizedBox(
