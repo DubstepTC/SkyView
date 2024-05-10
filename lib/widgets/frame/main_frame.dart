@@ -25,7 +25,9 @@ class MainFrame extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         // Ваш код для перехода на другую страницу
-        Navigator.push(context, MaterialPageRoute(builder: (context) => DayScreen(currentIndex: currentIndex,)));
+        var now = new DateTime.now();
+        var hours = now.hour;
+        Navigator.push(context, MaterialPageRoute(builder: (context) => DayScreen(currentIndex: currentIndex, time: hours,)));
       },
       child: Container(
         width: rectangleWidth,

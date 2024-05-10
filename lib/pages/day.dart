@@ -1,13 +1,16 @@
 import 'package:SkyView/pages/main_page.dart';
 import 'package:SkyView/widgets/hours.dart';
+import 'package:SkyView/widgets/box_day.dart';
+import 'package:SkyView/widgets/sun.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:SkyView/Appconstants/constants.dart';
 
 class DayScreen extends StatefulWidget {
   final int currentIndex;
+  final int time;
 
-  const DayScreen({Key? key, required this.currentIndex}) : super(key: key);
+  const DayScreen({Key? key, required this.currentIndex, required this.time}) : super(key: key);
 
   @override
   _DayScreenState createState() => _DayScreenState();
@@ -44,7 +47,7 @@ class _DayScreenState extends State<DayScreen> {
               height: MediaQuery.of(context).size.height,
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage("assets/images/background_night.jpg"),
+                  image: AssetImage("assets/images/sunrise_background.jpg"),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -53,7 +56,7 @@ class _DayScreenState extends State<DayScreen> {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               decoration: const BoxDecoration(
-                color: Color.fromRGBO(0, 0, 0, 0.5),
+                color: Color.fromRGBO(0, 0, 0, 0.7),
               ),
             ),
             SizedBox(
@@ -105,16 +108,54 @@ class _DayScreenState extends State<DayScreen> {
                     height: MediaQuery.of(context).size.height * 0,
                   ),
                   SizedBox(
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.7,
-                      height: MediaQuery.of(context).size.height * 0.35,
-                      decoration: const BoxDecoration(
-                        color:  Color.fromRGBO(39, 64, 87, 0.35),
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                      ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Box(width: 0.4, height: 0.15, meaning: "23" + AppConstants.temperature, name: "Температура",),
+                            const SizedBox(width: 10,),
+                            Box(width: 0.4, height: 0.15, meaning: "23" + AppConstants.temperature, name: "Ощущается",)
+                          ],
+                        ),
+                        const SizedBox(height: 10,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Box(width: 0.4, height: 0.15, meaning: "23" + AppConstants.temperature, name: "Уф",),
+                            const SizedBox(width: 10,),
+                            Box(width: 0.4, height: 0.15, meaning: "23" + AppConstants.temperature, name: "Давление",)
+                          ],
+                        ),
+                        const SizedBox(height: 10,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Box(width: 0.4, height: 0.15, meaning: "23" + AppConstants.temperature, name: "Влажность",),
+                            const SizedBox(width: 10,),
+                            Box(width: 0.4, height: 0.15, meaning: "23" + AppConstants.temperature, name: "Вероятность осадков",)
+                          ],
+                        ),
+                        const SizedBox(height: 10,),
+                      ],
                     ),
                   ),
-                  HoursList(),
+                  SunriseSunsetWidget(),
+                  const SizedBox(height: 10,),
+                  const SizedBox(
+                    child: Text(
+                      "Прогноз на 24 часа",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                  HoursList(time: widget.time,),
                 ],
               )
             )
