@@ -10,10 +10,11 @@ class Updateapi {
   Map<String, String> weatherStatusTranslations = AppConstants.weatherStatusTranslations;
 
   Future getWeather(String city) async {
-    var response = await http.get(Uri.parse('$baseApiUrl?key=$apiKey&q=$city'));
+    var response = await http.get(Uri.parse('$baseApiUrl?key=$apiKey&q=$city&lang=ru'));
     
     if (response.statusCode == 200) {
-      var data = jsonDecode(utf8.decode(response.bodyBytes)); // Декодируем данные в UTF-8
+      var data = jsonDecode(utf8.decode(response.bodyBytes));
+      // Декодируем данные в UTF-8
       String weatherStatus = data['current']['condition']['text'];
       String translatedWeatherStatus = weatherStatusTranslations[weatherStatus] ?? weatherStatus;
 
@@ -86,6 +87,7 @@ class Updateapi {
         'wind_kph': wind,
         'humidity': data['current']['humidity'],
         'uv': data['current']['uv'],
+        'feelslike_c': (data['current']['feelslike_c']).round(),
       });
       updateWeatherForCities(cities);
       cities = [];

@@ -1,8 +1,11 @@
+import 'package:SkyView/API/hoursApi.dart';
+import 'package:SkyView/API/sunriseApi.dart';
 import 'package:SkyView/Appconstants/constants.dart';
 import 'package:SkyView/function/weatherImage.dart';
 import 'package:SkyView/pages/day.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 
 class MainFrame extends StatelessWidget {
   final double width;
@@ -21,12 +24,37 @@ class MainFrame extends StatelessWidget {
     double rectangleHeight = screenHeight * height;
 
     WeatherHelper weatherHelper = WeatherHelper();
+    SunriseApi sun = SunriseApi();
+    HoursApi gethours = HoursApi();
 
     return GestureDetector(
-      onTap: () {
+      onTap: () async{
         // Ваш код для перехода на другую страницу
         var now = new DateTime.now();
         var hours = now.hour;
+        //Дата
+        var day = DateTime.now();
+        var formatter = DateFormat('yyyy-MM-dd');
+        String formattedDate = formatter.format(day);
+        await sun.getSunrise(AppConstants.weather[currentIndex]['city']);
+        
+        List<Future> allFutures = [];
+
+        DateTime baseDateTime = DateTime.parse(formattedDate); // Преобразуем строку даты в DateTime
+
+        for (int i = 0; i < 25; i++) {
+          int nextHour = (hours + i) % 24;
+          
+          if (nextHour == 0 && i > 0) {
+            baseDateTime = baseDateTime.add(Duration(days: 1)); // Увеличиваем на 1 день
+          }
+          
+          String updatedDate = baseDateTime.toIso8601String(); // Преобразуем дату обратно в строку
+          
+          allFutures.add(gethours.getHours(AppConstants.weather[currentIndex]['city'], updatedDate, nextHour.toString()));
+        }
+        await Future.forEach(allFutures, (future) => future);
+        AppConstants.hours.sort((a, b) => a['data'].compareTo(b['data']));
         Navigator.push(context, MaterialPageRoute(builder: (context) => DayScreen(currentIndex: currentIndex, time: hours,)));
       },
       child: Container(

@@ -12,10 +12,10 @@ class FutureApi {
   Map<String, String> weatherStatusTranslations = AppConstants.weatherStatusTranslations;
 
   Future getWeather(String city, String date) async {
-    var response = await http.get(Uri.parse('$baseApiUrl?key=$apiKey&q=$city&date=$date'));
+    var response = await http.get(Uri.parse('$baseApiUrl?key=$apiKey&q=$city&date=$date&lang=ru'));
     
     if (response.statusCode == 200) {
-      var data = jsonDecode(utf8.decode(response.bodyBytes)); // Декодируем данные в UTF-8
+      var data = jsonDecode(utf8.decode(response.bodyBytes));// Декодируем данные в UTF-8
       String weatherStatus = data['current']['condition']['text'];
       String translatedWeatherStatus = weatherStatusTranslations[weatherStatus] ?? weatherStatus;
 

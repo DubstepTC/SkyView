@@ -23,7 +23,7 @@ class SunriseSunsetWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Восход: 6:00',
+                "Восход     " + AppConstants.sunrise[0]["sunrise"],
                 style: TextStyle(
                   color: AppConstants.nightColor,
                   fontSize: 16,
@@ -32,7 +32,7 @@ class SunriseSunsetWidget extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                'Закат: 18:00',
+                "Закат       " + AppConstants.sunrise[0]["sunset"],
                 style: TextStyle(
                   color: AppConstants.nightColor,
                   fontSize: 16,

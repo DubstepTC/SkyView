@@ -44,15 +44,14 @@ class HoursList extends StatelessWidget {
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.05,
                         width: MediaQuery.of(context).size.width * 0.1,
-                        child: weatherHelper.buildWeatherImage("Ясно")
+                        child: weatherHelper.buildWeatherImage(AppConstants.hours[index]["status"])
                       ),
                       const SizedBox(width: 10),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children:  [
                           Text(
-                            
-                            '20' + AppConstants.temperature,
+                            AppConstants.hours[index]["temperature"].round().toString() + " " + AppConstants.temperature,
                             style: TextStyle(
                               color: AppConstants.nightColor,
                               fontSize: 20,
@@ -60,7 +59,7 @@ class HoursList extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            '5 km/h',
+                            AppConstants.hours[index]["wind_speed"].toString() + " км/ч",
                             style: TextStyle(
                               color: AppConstants.nightColor,
                               fontSize: 14,

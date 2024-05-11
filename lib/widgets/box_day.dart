@@ -37,13 +37,16 @@ class Box extends StatelessWidget {
               fontSize: 24,
               fontWeight: FontWeight.bold,
             ),
+            textAlign: TextAlign.center,
           ),
           Text(
             name,
             style: TextStyle(
               color: AppConstants.nightColor,
               fontSize: 16,
+              fontWeight: FontWeight.bold,
             ),
+            textAlign: TextAlign.center, 
           ),
         ],
       ),

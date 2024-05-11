@@ -10,7 +10,7 @@ class WeatherScreen {
   Map<String, String> weatherStatusTranslations = AppConstants.weatherStatusTranslations;
 
   Future getWeather(String city) async {
-    var response = await http.get(Uri.parse('$baseApiUrl?key=$apiKey&q=$city'));
+    var response = await http.get(Uri.parse('$baseApiUrl?key=$apiKey&q=$city&lang=ru'));
     
     if (response.statusCode == 200) {
       var data = jsonDecode(utf8.decode(response.bodyBytes)); // Декодируем данные в UTF-8
