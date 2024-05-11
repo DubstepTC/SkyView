@@ -1,6 +1,7 @@
 import 'package:SkyView/API/futureApi.dart';
 import 'package:SkyView/API/updateApi.dart';
 import 'package:SkyView/Appconstants/constants.dart';
+import 'package:SkyView/function/pressure.dart';
 import 'package:SkyView/function/temperature.dart';
 import 'package:SkyView/function/speed.dart';
 import 'package:SkyView/pages/main_page.dart';
@@ -27,6 +28,7 @@ class _SettingsState extends State<Settings> {
 Widget build(BuildContext context) {
   Speedtranslation speed = Speedtranslation();
   Temperaturetranslation temperature = Temperaturetranslation();
+  Pressuretranslation presure = Pressuretranslation();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -40,6 +42,7 @@ Widget build(BuildContext context) {
       onWillPop: () async {
           await speed.updateList();
           await temperature.updateList();
+          await presure.updateList();
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MainScreen(currentIndex: 0,)));
           setState(() {});
         return true;
@@ -78,6 +81,7 @@ Widget build(BuildContext context) {
                           onTap: () async {
                             await speed.updateList();
                             await temperature.updateList();
+                            await presure.updateList();
                             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MainScreen(currentIndex: 0,)));
                             setState(() {});
                           },

@@ -21,7 +21,7 @@ class HoursApi {
       String translatedWeatherStatus = weatherStatusTranslations[weatherStatus] ?? weatherStatus;
 
       //Температура
-      double temperature = data["current"]["temp_c"];
+      double temperature = forecast[0]["hour"][0]["temp_c"];
       int temp;
       int wind_speed = 1;
 
@@ -30,6 +30,54 @@ class HoursApi {
       }
       else {
         temp = (temperature * 1.8 + 32).round();
+      }
+
+      //Скорость ветра
+
+      String wind;
+
+      if (AppConstants.windSpeed == "Километры в час") {
+        wind = (forecast[0]["hour"][0]["wind_kph"]).toString();
+      }
+      else if (AppConstants.windSpeed == "Метры в секунду") {
+        double s = forecast[0]["hour"][0]["wind_kph"];
+        wind = ((s * 1000 / 3600 * 10).round() / 10).toString();
+      }
+      else if (AppConstants.windSpeed == "Мили в час") {
+        wind = (forecast[0]["hour"][0]["wind_mph"]).toString();
+      }
+      else if (AppConstants.windSpeed == "Шкала Бофорта") {
+        int s = int.parse(forecast[0]["hour"][0]["wind_kph"].round().toString());
+        s = (s * 0.539957).round();
+        if (s < 1) {
+          wind = "0";
+        } else if (s >= 1 && s <= 3) {
+          wind = "1";
+        } else if (s >= 4 && s <= 6) {
+          wind = "2";
+        } else if (s >= 7 && s <= 10) {
+          wind = "3";
+        } else if (s >= 11 && s <= 15) {
+          wind = "4";
+        } else if (s >= 16 && s <= 20) {
+          wind = "5";
+        } else if (s >= 21 && s <= 26) {
+          wind = "6";
+        } else if (s >= 27 && s <= 33) {
+          wind = "7";
+        } else if (s >= 34 && s <= 40) {
+          wind = "8";
+        } else if (s >= 41 && s <= 47) {
+          wind = "9";
+        } else if (s >= 48 && s <= 55) {
+          wind = "10";
+        } else {
+          wind = "11";
+        }
+      }
+      else {
+        double s = forecast[0]["hour"][0]["wind_kph"];
+        wind = ((s * 0.539957 * 10).round() / 10).toString();
       }
 
       //Осадки %
@@ -45,10 +93,11 @@ class HoursApi {
       }
 
       cities.add({
+        'city': city,
         'data': forecast[0]["hour"][0]["time"],
         'status': translatedWeatherStatus,
-        'temperature': forecast[0]["hour"][0]["temp_c"],
-        'wind_speed': forecast[0]["hour"][0]["wind_kph"],
+        'temperature': temp,
+        'wind_speed': wind,
         'chance': chance,
       });
       updateWeatherForCities(cities);

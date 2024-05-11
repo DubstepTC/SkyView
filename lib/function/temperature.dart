@@ -13,6 +13,7 @@ class Temperaturetranslation {
         t = ((t - 32) / 1.8).round();
 
         AppConstants.weather[i]['temperature'] = t;
+        AppConstants.weather[i]["feelslike_c"] = ((AppConstants.weather[i]["feelslike_c"] - 32) / 1.8).round();
       }
       
       for (int i = 0; i < AppConstants.data.length; i++){
@@ -45,6 +46,7 @@ class Temperaturetranslation {
         t = (t * 1.8 + 32).round();
 
         AppConstants.weather[i]['temperature'] = t;
+        AppConstants.weather[i]["feelslike_c"] = (AppConstants.weather[i]["feelslike_c"] * 1.8 + 32).round();
       }
 
       for (int i = 0; i < AppConstants.data.length; i++){

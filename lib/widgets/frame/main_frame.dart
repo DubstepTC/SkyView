@@ -42,6 +42,7 @@ class MainFrame extends StatelessWidget {
 
         DateTime baseDateTime = DateTime.parse(formattedDate); // Преобразуем строку даты в DateTime
 
+        AppConstants.hours = [];
         for (int i = 0; i < 25; i++) {
           int nextHour = (hours + i) % 24;
           
@@ -55,6 +56,9 @@ class MainFrame extends StatelessWidget {
         }
         await Future.forEach(allFutures, (future) => future);
         AppConstants.hours.sort((a, b) => a['data'].compareTo(b['data']));
+        AppConstants.hours[0]["status"] = AppConstants.weather[currentIndex]['weather_status'];
+        AppConstants.hours[0]["temperature"] = AppConstants.weather[currentIndex]['temperature'];
+        AppConstants.hours[0]["wind_speed"] = AppConstants.weather[currentIndex]['wind_kph'];
         Navigator.push(context, MaterialPageRoute(builder: (context) => DayScreen(currentIndex: currentIndex, time: hours,)));
       },
       child: Container(

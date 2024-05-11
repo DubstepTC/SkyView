@@ -21,12 +21,15 @@ class Updateapi {
       //Температура
       double temp = data['current']['temp_c'];
       int t;
+      int t_feelslike_c = data['current']['feelslike_c'].round();
 
       if (AppConstants.temperature == "°C") {
         t = temp.round();
+        t_feelslike_c = t_feelslike_c.round();
       }
       else {
         t = (temp * 1.8 + 32).round();
+        t_feelslike_c = (t_feelslike_c * 1.8 + 32).round();
       }
 
       //Скорость ветра
@@ -87,7 +90,7 @@ class Updateapi {
         'wind_kph': wind,
         'humidity': data['current']['humidity'],
         'uv': data['current']['uv'],
-        'feelslike_c': (data['current']['feelslike_c']).round(),
+        'feelslike_c': t_feelslike_c,
       });
       updateWeatherForCities(cities);
       cities = [];
