@@ -48,10 +48,10 @@ class _DayScreenState extends State<DayScreen> {
 
     String pressure;
 
-    if (AppConstants.windSpeed == "Километры в час") {
+    if (AppConstants.pressure == "Миллиметр ртутного столба (мм рт. ст)") {
       pressure = " мм рт.ст.";
     }
-    else if (AppConstants.windSpeed == "Шкала Бофорта") {
+    else if (AppConstants.pressure == "Физическая атмосфера (атм)") {
       pressure = " атм";
     }
     else {
@@ -60,6 +60,7 @@ class _DayScreenState extends State<DayScreen> {
 
     return WillPopScope(
       onWillPop: () async {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen(currentIndex: widget.currentIndex,)));            
         return true;
       },
       child: Scaffold(
@@ -106,7 +107,7 @@ class _DayScreenState extends State<DayScreen> {
                         SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
                         InkWell(
                           onTap: () {
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen(currentIndex: widget.currentIndex,)));
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen(currentIndex: widget.currentIndex,)));            
                             setState(() {});
                           },
                           child: ColorFiltered(
@@ -157,7 +158,7 @@ class _DayScreenState extends State<DayScreen> {
                           children: [
                             Box(width: 0.4, height: 0.15, meaning: AppConstants.weather[widget.currentIndex]["uv"].toString(), name: "Уф",),
                             const SizedBox(width: 10,),
-                            Box(width: 0.4, height: 0.15, meaning: AppConstants.weather[widget.currentIndex]["pressure_mb"].toString() + "\n" + pressure, name: "Давление",)
+                            Box(width: 0.4, height: 0.15, meaning: AppConstants.hours[widget.currentIndex]["pressure_mb"].toString() + "\n" + pressure, name: "Давление",)
                           ],
                         ),
                         const SizedBox(height: 10,),

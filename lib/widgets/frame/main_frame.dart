@@ -52,7 +52,7 @@ class MainFrame extends StatelessWidget {
           
           String updatedDate = baseDateTime.toIso8601String(); // Преобразуем дату обратно в строку
           
-          allFutures.add(gethours.getHours(AppConstants.weather[currentIndex]['city'], updatedDate, nextHour.toString()));
+          allFutures.add(gethours.getHours(AppConstants.weather[currentIndex]['city'], updatedDate, nextHour.toString(), currentIndex));
         }
         await Future.forEach(allFutures, (future) => future);
         AppConstants.hours.sort((a, b) => a['data'].compareTo(b['data']));

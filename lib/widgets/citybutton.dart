@@ -2,6 +2,7 @@ import 'package:SkyView/API/futureApi.dart';
 import 'package:SkyView/API/updateApi.dart';
 import 'package:SkyView/Appconstants/constants.dart';
 import 'package:SkyView/pages/main_page.dart';
+import 'package:SkyView/pages/start/entry.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -61,6 +62,7 @@ class _OvalButtonWidgetState extends State<OvalButtonWidget> {
       String date = day["date"];
       await future.getWeather(city, date);
     }
+    Navigator.pop(context);
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen(currentIndex: 0)));
     setState(() {});
     AppConstants.savePreferences();
@@ -70,6 +72,13 @@ class _OvalButtonWidgetState extends State<OvalButtonWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async{
+        showDialog(
+          context: context,
+          barrierDismissible: false, // блокируем закрытие окна при нажатии вне его
+          builder: (BuildContext context) {
+            return Entry();
+          },
+        );
         await up();
         await updateList();
       },

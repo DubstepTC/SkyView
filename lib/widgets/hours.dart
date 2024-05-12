@@ -11,6 +11,24 @@ class HoursList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    String wind;
+
+    if (AppConstants.windSpeed == "Километры в час") {
+      wind = " км/ч";
+    }
+    else if (AppConstants.windSpeed == "Шкала Бофорта") {
+      wind = " Б";
+    }
+    else if (AppConstants.windSpeed == "Метры в секунду") {
+      wind = " м/с";
+    }
+    else if (AppConstants.windSpeed == "Мили в час") {
+      wind = " миль/ч";
+    }
+    else {
+      wind = " уз";
+    }
+
     //Функции
     WeatherHelper weatherHelper = WeatherHelper();
 
@@ -43,7 +61,7 @@ class HoursList extends StatelessWidget {
                     children: [
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.05,
-                        width: MediaQuery.of(context).size.width * 0.1,
+                        width: MediaQuery.of(context).size.width * 0.08,
                         child: weatherHelper.buildWeatherImage(AppConstants.hours[index]["status"])
                       ),
                       const SizedBox(width: 10),
@@ -59,7 +77,7 @@ class HoursList extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            AppConstants.hours[index]["wind_speed"].toString() + " км/ч",
+                            AppConstants.hours[index]["wind_speed"].toString() + wind,
                             style: TextStyle(
                               color: AppConstants.nightColor,
                               fontSize: 14,

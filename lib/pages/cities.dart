@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:SkyView/API/futureApi.dart';
 import 'package:SkyView/API/updateApi.dart';
 import 'package:SkyView/pages/main_page.dart';
+import 'package:SkyView/pages/start/entry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:SkyView/Appconstants/constants.dart';
@@ -70,10 +71,18 @@ class _CitiesListState extends State<CitiesList> {
 
     return WillPopScope(
       onWillPop: () async {
+        showDialog(
+          context: context,
+          barrierDismissible: false, // блокируем закрытие окна при нажатии вне его
+          builder: (BuildContext context) {
+            return Entry();
+          },
+        );
         AppConstants.weather = [];
         AppConstants.data = [];
         await up();
         await updateList();
+        Navigator.pop(context);
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen(currentIndex: widget.currentIndex,)));   
         setState(() {});                
         return true;
@@ -110,10 +119,18 @@ class _CitiesListState extends State<CitiesList> {
                         SizedBox(width: screenWidth * 0.05,),
                         InkWell(
                           onTap: () async {
+                            showDialog(
+                              context: context,
+                              barrierDismissible: false, // блокируем закрытие окна при нажатии вне его
+                              builder: (BuildContext context) {
+                                return Entry();
+                              },
+                            );
                             AppConstants.weather = [];
                             AppConstants.data = [];
                             await up();
                             await updateList();
+                            Navigator.pop(context);
                             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen(currentIndex: widget.currentIndex,)));
                             setState(() {});
                           },

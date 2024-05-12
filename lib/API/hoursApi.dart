@@ -11,7 +11,7 @@ class HoursApi {
 
   Map<String, String> weatherStatusTranslations = AppConstants.weatherStatusTranslations;
 
-  Future getHours(String city, String date, String hour) async {
+  Future getHours(String city, String date, String hour, int index) async {
     var response = await http.get(Uri.parse('$baseApiUrl?key=$apiKey&q=$city&date=$date&hour=$hour&lang=ru'));
     
     if (response.statusCode == 200) {
@@ -92,6 +92,21 @@ class HoursApi {
         chance = "0";
       }
 
+      //Давление 
+      String pressure_temp;
+      double pr = double.parse(AppConstants.weather[index]["pressure_mb"].toString());
+        if (AppConstants.pressure == "Миллиметр ртутного столба (мм рт. ст)" && temp != AppConstants.pressure){
+          pressure_temp = pr.toString();  
+        }
+        else if (AppConstants.pressure == "Физическая атмосфера (атм)" && temp != AppConstants.pressure ) { 
+          pressure_temp = double.parse((pr / 760).toStringAsFixed(2)).toString();
+        }
+        else if (AppConstants.pressure == "Миллибар (мбар)" && temp != AppConstants.pressure ) { 
+          pressure_temp = double.parse((pr * 1.33322).toStringAsFixed(2)).toString();
+        }
+        else {
+          pressure_temp = "";
+        }
       cities.add({
         'city': city,
         'data': forecast[0]["hour"][0]["time"],
@@ -99,6 +114,7 @@ class HoursApi {
         'temperature': temp,
         'wind_speed': wind,
         'chance': chance,
+        'pressure_mb': pressure_temp,
       });
       updateWeatherForCities(cities);
       cities = [];
