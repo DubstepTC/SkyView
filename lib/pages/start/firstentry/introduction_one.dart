@@ -1,18 +1,18 @@
 import 'package:SkyView/Appconstants/constants.dart';
-import 'package:SkyView/pages/start/firstentry/introduction_one.dart';
+import 'package:SkyView/pages/start/firstentry/definitioncity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 
-class WelcomePage extends StatefulWidget {
+class IntroductionOne extends StatefulWidget {
   @override
-  _WelcomePageState createState() => _WelcomePageState();
+  _IntroductionOneState createState() => _IntroductionOneState();
 }
 
-class _WelcomePageState extends State<WelcomePage> {
+class _IntroductionOneState extends State<IntroductionOne> {
 
   void _setWelcomeFlag() async {
-    AppConstants.welcome = "false";
+    AppConstants.welcome = "true";
     AppConstants.savePreferences();
   }
 
@@ -53,7 +53,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 height: MediaQuery.of(context).size.height * 0.1,
                 width: MediaQuery.of(context).size.width * 0.8,
                 child: const Text(
-                  "Добро пожаловать в SkyView!",
+                  "SkyView",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Color.fromRGBO(194, 184, 255, 1),
@@ -63,15 +63,31 @@ class _WelcomePageState extends State<WelcomePage> {
                 ),
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
-              Container(
-                height: MediaQuery.of(context).size.width * 0.6,
-                width: MediaQuery.of(context).size.width * 0.6,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/icons/loader.png"),
-                    fit: BoxFit.contain,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.width * 0.8,
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/intro/one.jpg"),
+                        fit: BoxFit.contain,
+                      ),
+                    ),
                   ),
-                ),
+                  const SizedBox(width: 10,),
+                  Container(
+                    height: MediaQuery.of(context).size.width * 0.8,
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/intro/screen_six.jpg"),
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
               SizedBox(
@@ -94,7 +110,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     _setWelcomeFlag();
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => IntroductionOne()),
+                      MaterialPageRoute(builder: (context) => DefinitionCity()),
                     );
                   },
                   style: ElevatedButton.styleFrom(
