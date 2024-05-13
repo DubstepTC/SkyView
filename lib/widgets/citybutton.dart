@@ -79,6 +79,7 @@ class _OvalButtonWidgetState extends State<OvalButtonWidget> {
             return Entry();
           },
         );
+        AppConstants.data = [];
         await up();
         await updateList();
       },
