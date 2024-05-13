@@ -1,9 +1,13 @@
+import 'package:SkyView/API/futureApi.dart';
+import 'package:SkyView/API/updateApi.dart';
 import 'package:SkyView/Appconstants/constants.dart';
 import 'package:SkyView/pages/main_page.dart';
+import 'package:SkyView/pages/start/entry.dart';
 import 'package:flutter/material.dart';
 import 'package:SkyView/function/weatherImage.dart';
+import 'package:intl/intl.dart';  
 
-class CardCities extends StatelessWidget {
+class CardCities extends StatefulWidget {
   final double width;
   final double height; 
   final String temperature;
@@ -14,23 +18,84 @@ class CardCities extends StatelessWidget {
   const CardCities({super.key,required this.width, required this.height, required this.temperature, required this.city, required this.country , required this.weather});
 
   @override
+    _CardCitiesState createState() => _CardCitiesState();
+  }
+
+  class _CardCitiesState extends State<CardCities> {
+  Updateapi weather = Updateapi();
+  
+  List<Map<String, dynamic>> forecastForFiveDays() {
+    List<Map<String, dynamic>> days = [];
+    DateTime today = DateTime.now();
+
+    for (var cityMap in AppConstants.cityCountryMap) {
+      String city = cityMap["city"];
+      for (int i = 0; i <= 4; i++) {
+        DateTime nextDate = today.add(Duration(days: i));
+        DateFormat formatter = DateFormat('yyyy-MM-dd');
+        String formattedDate = formatter.format(nextDate);
+        Map<String, dynamic> future = {
+          "city": city,
+          "date": formattedDate
+        };
+        days.add(future);
+      }
+    }
+    return days;
+  }
+
+  Future up() async{
+    for (int i = 0; i < AppConstants.cityCountryMap.length; i++)
+    {
+        await weather.getWeather(AppConstants.cityCountryMap[i]["city"]);
+        for(int i = 0; i < AppConstants.weather.length; i++){
+          if (AppConstants.weather[i]['city'] == widget.city){
+            Map<String, dynamic> cityData = {
+              "city": AppConstants.cityCountryMap[i]["city"],
+              "country": AppConstants.weather[i]['country'],
+              "temperature": AppConstants.weather[i]['temperature'],
+              "weather_status": AppConstants.weather[i]['weather_status'],
+            };
+            int index = AppConstants.cityCountryMap.indexWhere((cityData) => cityData["city"] == widget.city);
+            AppConstants.cityCountryMap[index] = cityData;
+          }
+      }
+    }
+    
+  }
+
+  Future updateList() async {
+    FutureApi future = FutureApi();
+    List<Map<String, dynamic>> days = forecastForFiveDays();
+    for (var day in days) {
+      String city = day["city"];
+      String date = day["date"];
+      await future.getWeather(city, date);
+    }
+    Navigator.pop(context);
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen(currentIndex: 0)));
+    setState(() {});
+    AppConstants.savePreferences();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // Вычисляем ширину прямоугольника
     double screenWidth = MediaQuery.of(context).size.width;
-    double rectangleWidth = screenWidth * width; 
+    double rectangleWidth = screenWidth * widget.width; 
     // Вычисляем высоту прямоугольника
     double screenHeight = MediaQuery.of(context).size.height;
-    double rectangleHeight = screenHeight * height;
+    double rectangleHeight = screenHeight * widget.height;
     //Функции
     WeatherHelper weatherHelper = WeatherHelper();
 
     String countryname;
 
-    if (country == "Соединенные Штаты Америки"){
+    if (widget.country == "Соединенные Штаты Америки"){
       countryname = "США";
     }
     else {
-      countryname = country;
+      countryname = widget.country;
     }
    
     return Stack(
@@ -66,8 +131,22 @@ class CardCities extends StatelessWidget {
           ),
         ),
         GestureDetector(
-          onTap: () {
-            int index = AppConstants.cityCountryMap.indexWhere((element) => element["city"] == city);
+          onTap: () async{
+            showDialog(
+            context: context,
+            barrierDismissible: false, 
+            builder: (BuildContext context) {
+              return Entry();
+            },
+          );
+          AppConstants.weather = [];
+          AppConstants.data = [];
+          await up();
+          await updateList();
+          print(AppConstants.cityCountryMap);
+          print(AppConstants.weather);
+          Navigator.pop(context);
+            int index = AppConstants.cityCountryMap.indexWhere((element) => element["city"] == widget.city);
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -96,7 +175,7 @@ class CardCities extends StatelessWidget {
                           children: [
                             const SizedBox(height: 16,),
                             Text(
-                              temperature + AppConstants.temperature,
+                              widget.temperature + AppConstants.temperature,
                               textAlign: TextAlign.left,
                               style: const TextStyle(
                                 color: Colors.white,
@@ -108,7 +187,7 @@ class CardCities extends StatelessWidget {
                         )
                       ),
                       Expanded(
-                        child: weatherHelper.buildWeatherImage(weather)
+                        child: weatherHelper.buildWeatherImage(widget.weather)
                       ),
                     ],
                   )
@@ -122,7 +201,7 @@ class CardCities extends StatelessWidget {
                         child: Column(
                           children: [
                             Text(
-                              city,
+                              widget.city,
                               textAlign: TextAlign.start,
                               style: const TextStyle(
                                 color: Colors.white,
@@ -144,7 +223,7 @@ class CardCities extends StatelessWidget {
                       ),
                       Expanded(
                         child: Text(
-                          weather,
+                          widget.weather,
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                             color: Colors.white,

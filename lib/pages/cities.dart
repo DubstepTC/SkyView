@@ -133,7 +133,7 @@ class _CitiesListState extends State<CitiesList> {
                             await up();
                             await updateList();
                             Navigator.pop(context);
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen(currentIndex: widget.currentIndex,)));
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen(currentIndex: 0)));
                             setState(() {});
                           },
                           child: ColorFiltered(

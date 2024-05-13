@@ -37,10 +37,11 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
 
     return WillPopScope(
       onWillPop: () async {
-        AppConstants.cityWeather = [];
-          setState(() {
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CitiesList(currentIndex: 0,)));
-          });
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => CitiesList(currentIndex: 0,)),
+        );
+        setState(() {});
         return true;
       },
       child: Scaffold(
