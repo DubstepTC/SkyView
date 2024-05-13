@@ -1,4 +1,5 @@
 import 'package:SkyView/API/openApi.dart';
+import 'package:SkyView/Appconstants/constants.dart';
 import 'package:SkyView/pages/cities.dart';
 import 'package:SkyView/pages/settings.dart';
 import 'package:flutter/material.dart';
@@ -59,6 +60,7 @@ class _TopState extends State<Top> {
           SizedBox(width:  rectangleWidth * 0.10,),
           InkWell(
             onTap: () {
+              print(AppConstants.cityCountryMap);
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => Settings()),

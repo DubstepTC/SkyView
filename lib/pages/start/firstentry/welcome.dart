@@ -1,5 +1,5 @@
 import 'package:SkyView/Appconstants/constants.dart';
-import 'package:SkyView/pages/start/firstentry/introduction_one.dart';
+import 'package:SkyView/pages/start/firstentry/introductionOne.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -10,11 +10,6 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
-
-  void _setWelcomeFlag() async {
-    AppConstants.welcome = "false";
-    AppConstants.savePreferences();
-  }
 
   @override
   Widget build(BuildContext context){
@@ -82,7 +77,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Color.fromRGBO(194, 184, 255, 1),
-                    fontSize: 18,
+                    fontSize: 16,
                     fontWeight: FontWeight.bold
                   ),
                 ),
@@ -91,7 +86,6 @@ class _WelcomePageState extends State<WelcomePage> {
               SizedBox(
                 child: ElevatedButton(
                   onPressed: () {
-                    _setWelcomeFlag();
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => IntroductionOne()),

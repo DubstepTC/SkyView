@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 import 'package:SkyView/API/futureApi.dart';
+import 'package:SkyView/API/timeZoneName.dart';
 import 'package:SkyView/API/updateApi.dart';
 import 'package:SkyView/pages/main_page.dart';
 import 'package:SkyView/pages/start/entry.dart';
@@ -22,12 +23,46 @@ class CitiesList extends StatefulWidget {
 }
 
 class _CitiesListState extends State<CitiesList> {
-  Updateapi weather = Updateapi();
 
-  Future up() async{
+   Future<void> _loadData() async {
+    FutureApi future = FutureApi();
+    Updateapi weather = Updateapi();
+    timeZoneName timezone = timeZoneName();
+    List<Future> futures = [];
+    List<Map<String, dynamic>> days = forecastForFiveDays();
+
     for (var cityMap in AppConstants.cityCountryMap) {
       String city = cityMap["city"];
-      await weather.getWeather(city);
+      var weatherMain = await weather.getWeather(city);
+      if (weatherMain != null) {
+          futures.add(weatherMain);
+      }
+    }
+
+    for (var day in days) {
+      String city = day["city"];
+      String date = day["date"];
+      var weather = await future.getWeather(city, date);
+      if (weather != null) {
+          futures.add(weather);
+      }
+    }
+
+    for (var cityMap in AppConstants.cityCountryMap) {
+      String city = cityMap["city"];
+      var time = await timezone.getWeather(city);
+      if (time != null) {
+          futures.add(time);
+      }
+    }
+
+    await Future.wait(futures);
+
+    for(int i = 0; i < AppConstants.cityCountryMap.length; i++){
+      if (AppConstants.cityCountryMap[i]["city"] == AppConstants.weather[i]["city"]){
+        AppConstants.cityCountryMap[i]["temperature"] = AppConstants.weather[i]["temperature"];
+        AppConstants.cityCountryMap[i]["weather_status"] = AppConstants.weather[i]["weather_status"];
+      }
     }
   }
 
@@ -51,16 +86,6 @@ class _CitiesListState extends State<CitiesList> {
     return days;
   }
 
-  Future updateList() async {
-    FutureApi future = FutureApi();
-    List<Map<String, dynamic>> days = forecastForFiveDays();
-    for (var day in days) {
-      String city = day["city"];
-      String date = day["date"];
-      await future.getWeather(city, date);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -80,12 +105,12 @@ class _CitiesListState extends State<CitiesList> {
             return Entry();
           },
         );
+        AppConstants.timeZoneName = [];
         AppConstants.weather = [];
         AppConstants.data = [];
-        await up();
-        await updateList();
+        await _loadData();
         Navigator.pop(context);
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MainScreen(currentIndex: 0)));   
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen(currentIndex: 0)));   
         setState(() {});                
         return true;
       },
@@ -128,10 +153,10 @@ class _CitiesListState extends State<CitiesList> {
                                 return Entry();
                               },
                             );
+                            AppConstants.timeZoneName = [];
                             AppConstants.weather = [];
                             AppConstants.data = [];
-                            await up();
-                            await updateList();
+                            await _loadData();
                             Navigator.pop(context);
                             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen(currentIndex: 0)));
                             setState(() {});
@@ -198,9 +223,10 @@ class _CitiesListState extends State<CitiesList> {
                               child: Dismissible(
                                 key: Key(cityName),
                                 onDismissed: (direction) {
-                                  if (direction == DismissDirection.endToStart) { // свайп влево
+                                  if (direction == DismissDirection.endToStart || direction == DismissDirection.startToEnd) { // свайп влево
                                     setState(() {
                                       AppConstants.cityCountryMap.removeAt(index);
+                                      AppConstants.savePreferences();
                                     });
                                   }
                                 },

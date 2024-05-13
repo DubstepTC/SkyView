@@ -82,7 +82,10 @@ Widget build(BuildContext context) {
                             await speed.updateList();
                             await temperature.updateList();
                             await presure.updateList();
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MainScreen(currentIndex: 0,)));
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => MainScreen(currentIndex: 0,)),
+                            );
                             setState(() {});
                           },
                           child: ColorFiltered(

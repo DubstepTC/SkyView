@@ -1,4 +1,5 @@
 import 'package:SkyView/API/futureApi.dart';
+import 'package:SkyView/API/timeZoneName.dart';
 import 'package:SkyView/API/updateApi.dart';
 import 'package:SkyView/Appconstants/constants.dart';
 import 'package:SkyView/pages/main_page.dart';
@@ -22,8 +23,48 @@ class CardCities extends StatefulWidget {
   }
 
   class _CardCitiesState extends State<CardCities> {
-  Updateapi weather = Updateapi();
-  
+  Future<void> _loadData() async {
+    FutureApi future = FutureApi();
+    Updateapi weather = Updateapi();
+    timeZoneName timezone = timeZoneName();
+    List<Future> futures = [];
+    List<Map<String, dynamic>> days = forecastForFiveDays();
+
+    for (var cityMap in AppConstants.cityCountryMap) {
+      String city = cityMap["city"];
+      var weatherMain = await weather.getWeather(city);
+      if (weatherMain != null) {
+          futures.add(weatherMain);
+      }
+    }
+
+    for (var day in days) {
+      String city = day["city"];
+      String date = day["date"];
+      var weather = await future.getWeather(city, date);
+      if (weather != null) {
+          futures.add(weather);
+      }
+    }
+
+    for (var cityMap in AppConstants.cityCountryMap) {
+      String city = cityMap["city"];
+      var time = await timezone.getWeather(city);
+      if (time != null) {
+          futures.add(time);
+      }
+    }
+
+    await Future.wait(futures);
+
+    for(int i = 0; i < AppConstants.cityCountryMap.length; i++){
+      if (AppConstants.cityCountryMap[i]["city"] == AppConstants.weather[i]["city"]){
+        AppConstants.cityCountryMap[i]["temperature"] = AppConstants.weather[i]["temperature"];
+        AppConstants.cityCountryMap[i]["weather_status"] = AppConstants.weather[i]["weather_status"];
+      }
+    }
+  }
+
   List<Map<String, dynamic>> forecastForFiveDays() {
     List<Map<String, dynamic>> days = [];
     DateTime today = DateTime.now();
@@ -43,41 +84,7 @@ class CardCities extends StatefulWidget {
     }
     return days;
   }
-
-  Future up() async{
-    for (int i = 0; i < AppConstants.cityCountryMap.length; i++)
-    {
-        await weather.getWeather(AppConstants.cityCountryMap[i]["city"]);
-        for(int i = 0; i < AppConstants.weather.length; i++){
-          if (AppConstants.weather[i]['city'] == widget.city){
-            Map<String, dynamic> cityData = {
-              "city": AppConstants.cityCountryMap[i]["city"],
-              "country": AppConstants.weather[i]['country'],
-              "temperature": AppConstants.weather[i]['temperature'],
-              "weather_status": AppConstants.weather[i]['weather_status'],
-            };
-            int index = AppConstants.cityCountryMap.indexWhere((cityData) => cityData["city"] == widget.city);
-            AppConstants.cityCountryMap[index] = cityData;
-          }
-      }
-    }
-    
-  }
-
-  Future updateList() async {
-    FutureApi future = FutureApi();
-    List<Map<String, dynamic>> days = forecastForFiveDays();
-    for (var day in days) {
-      String city = day["city"];
-      String date = day["date"];
-      await future.getWeather(city, date);
-    }
-    Navigator.pop(context);
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen(currentIndex: 0)));
-    setState(() {});
-    AppConstants.savePreferences();
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     // Вычисляем ширину прямоугольника
@@ -139,10 +146,10 @@ class CardCities extends StatefulWidget {
               return Entry();
             },
           );
+          AppConstants.timeZoneName = [];
           AppConstants.weather = [];
           AppConstants.data = [];
-          await up();
-          await updateList();
+          await _loadData();
           Navigator.pop(context);
             int index = AppConstants.cityCountryMap.indexWhere((element) => element["city"] == widget.city);
             Navigator.push(

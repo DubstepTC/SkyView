@@ -117,6 +117,12 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                                     style: TextStyle(
                                       color: AppConstants.nightColor,
                                     ),
+                                    onSubmitted: (String searchText) async{
+                                      FocusScope.of(context).unfocus();
+                                      String searchText = searchController.text;
+                                      await wap.getWeather(searchText);
+                                      setState(() {});
+                                    },
                                   ),
                                 ),
                                 Expanded(
@@ -124,6 +130,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                                   child: IconButton(
                                     icon: Icon(Icons.search, color: Colors.white,),
                                     onPressed: () async {
+                                      FocusScope.of(context).unfocus();
                                       String searchText = searchController.text;
                                       await wap.getWeather(searchText);
                                       setState(() {});

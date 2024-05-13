@@ -1,4 +1,6 @@
 import 'package:SkyView/API/futureApi.dart';
+import 'package:SkyView/API/openApi.dart';
+import 'package:SkyView/API/timeZoneName.dart';
 import 'package:SkyView/API/updateApi.dart';
 import 'package:SkyView/Appconstants/constants.dart';
 import 'package:SkyView/pages/main_page.dart';
@@ -17,7 +19,55 @@ class OvalButtonWidget extends StatefulWidget {
 }
 
 class _OvalButtonWidgetState extends State<OvalButtonWidget> {
+
+  Future add(cityData) async{
+    AppConstants.cityCountryMap.add(cityData);
+  } 
+
+  WeatherScreen wap = WeatherScreen();
   Updateapi weather = Updateapi();
+
+  Future<void> _loadData() async {
+    FutureApi future = FutureApi();
+    Updateapi weather = Updateapi();
+    timeZoneName timezone = timeZoneName();
+    List<Future> futures = [];
+    List<Map<String, dynamic>> days = forecastForFiveDays();
+
+    for (var cityMap in AppConstants.cityCountryMap) {
+      String city = cityMap["city"];
+      var weatherMain = await weather.getWeather(city);
+      if (weatherMain != null) {
+          futures.add(weatherMain);
+      }
+    }
+
+    for (var day in days) {
+      String city = day["city"];
+      String date = day["date"];
+      var weather = await future.getWeather(city, date);
+      if (weather != null) {
+          futures.add(weather);
+      }
+    }
+
+    for (var cityMap in AppConstants.cityCountryMap) {
+      String city = cityMap["city"];
+      var time = await timezone.getWeather(city);
+      if (time != null) {
+          futures.add(time);
+      }
+    }
+
+    await Future.wait(futures);
+
+    for(int i = 0; i < AppConstants.cityCountryMap.length; i++){
+      if (AppConstants.cityCountryMap[i]["city"] == AppConstants.weather[i]["city"]){
+        AppConstants.cityCountryMap[i]["temperature"] = AppConstants.weather[i]["temperature"];
+        AppConstants.cityCountryMap[i]["weather_status"] = AppConstants.weather[i]["weather_status"];
+      }
+    }
+  }
 
   List<Map<String, dynamic>> forecastForFiveDays() {
     List<Map<String, dynamic>> days = [];
@@ -39,35 +89,6 @@ class _OvalButtonWidgetState extends State<OvalButtonWidget> {
     return days;
   }
 
-  Future up() async{
-    await weather.getWeather(widget.name);
-    for(int i = 0; i < AppConstants.weather.length; i++){
-      if (AppConstants.weather[i]['city'] == widget.name){
-        Map<String, dynamic> cityData = {
-          "city": widget.name,
-          "country": AppConstants.weather[i]['country'],
-          "temperature": AppConstants.weather[i]['temperature'],
-          "weather_status": AppConstants.weather[i]['weather_status'],
-        };
-        AppConstants.cityCountryMap.add(cityData);
-      }
-    }
-  }
-
-  Future updateList() async {
-    FutureApi future = FutureApi();
-    List<Map<String, dynamic>> days = forecastForFiveDays();
-    for (var day in days) {
-      String city = day["city"];
-      String date = day["date"];
-      await future.getWeather(city, date);
-    }
-    Navigator.pop(context);
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen(currentIndex: 0)));
-    setState(() {});
-    AppConstants.savePreferences();
-  }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -79,9 +100,24 @@ class _OvalButtonWidgetState extends State<OvalButtonWidget> {
             return Entry();
           },
         );
+        AppConstants.cityWeather = [];
+        await wap.getWeather(widget.name);
+        Map<String, dynamic> cityData = {
+          "city": AppConstants.cityWeather[0]["city"],
+          "country": AppConstants.cityWeather[0]["country"],
+          "temperature": AppConstants.cityWeather[0]["temperature"],
+          "weather_status": AppConstants.cityWeather[0]["weather_status"],
+        };
+        add(cityData);
+        AppConstants.savePreferences();
+        AppConstants.cityWeather = [];
+        AppConstants.timeZoneName = [];
+        AppConstants.weather = [];
         AppConstants.data = [];
-        await up();
-        await updateList();
+        await _loadData();
+        Navigator.pop(context);
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MainScreen(currentIndex: 0)));   
+        setState(() {});   
       },
       child: Container(
         width: (MediaQuery.of(context).size.width - 40) / 3,
