@@ -1,4 +1,5 @@
 import 'package:SkyView/API/futureApi.dart';
+import 'package:SkyView/API/timeZoneName.dart';
 import 'package:SkyView/API/updateApi.dart';
 import 'package:SkyView/pages/start/firstentry/welcome.dart';
 import 'package:flutter/material.dart';
@@ -12,14 +13,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppConstants.initialize();
-  
-
   runApp(MainApp());
 }
 
 Future<void> _loadData() async {
   FutureApi future = FutureApi();
   Updateapi weather = Updateapi();
+  timeZoneName timezone = timeZoneName();
   List<Future> futures = [];
   List<Map<String, dynamic>> days = forecastForFiveDays();
 
@@ -39,6 +39,15 @@ Future<void> _loadData() async {
         futures.add(weather);
     }
   }
+
+  for (var cityMap in AppConstants.cityCountryMap) {
+    String city = cityMap["city"];
+    var time = await timezone.getWeather(city);
+    if (time != null) {
+        futures.add(time);
+    }
+  }
+
   await Future.wait(futures);
 
   for(int i = 0; i < AppConstants.cityCountryMap.length; i++){

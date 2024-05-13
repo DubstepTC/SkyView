@@ -143,8 +143,6 @@ class CardCities extends StatefulWidget {
           AppConstants.data = [];
           await up();
           await updateList();
-          print(AppConstants.cityCountryMap);
-          print(AppConstants.weather);
           Navigator.pop(context);
             int index = AppConstants.cityCountryMap.indexWhere((element) => element["city"] == widget.city);
             Navigator.push(

@@ -29,18 +29,17 @@ class MainFrame extends StatelessWidget {
 
     return GestureDetector(
       onTap: () async{
-        // Ваш код для перехода на другую страницу
-        var now = new DateTime.now();
-        var hours = now.hour;
-        //Дата
-        var day = DateTime.now();
-        var formatter = DateFormat('yyyy-MM-dd');
-        String formattedDate = formatter.format(day);
+        
+        String time = AppConstants.timeZoneName[currentIndex]["localtime"];
+        List<String> dateTimeParts = time.split(" ");
+
+        String day = dateTimeParts[0];
+        int hours = int.parse(dateTimeParts[1].split(":").first);
         await sun.getSunrise(AppConstants.weather[currentIndex]['city']);
         
         List<Future> allFutures = [];
 
-        DateTime baseDateTime = DateTime.parse(formattedDate); // Преобразуем строку даты в DateTime
+        DateTime baseDateTime = DateTime.parse(day); // Преобразуем строку даты в DateTime
 
         AppConstants.hours = [];
         for (int i = 0; i < 25; i++) {

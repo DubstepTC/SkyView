@@ -36,6 +36,8 @@ class AppConstants {
   static List<Map<String, dynamic>> sunrise = [];
   //Погода на 24 часа 
   static List<Map<String, dynamic>> hours = [];
+  //Часовой пояс 
+  static List<Map<String, dynamic>> timeZoneName = [];
 
   static Color nightColor = const Color.fromRGBO(194, 184, 255, 1.0); 
   static Color sunColor = const Color.fromRGBO(245, 255, 184, 1.0);
