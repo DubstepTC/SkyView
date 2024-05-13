@@ -3,6 +3,7 @@ import 'package:SkyView/API/futureApi.dart';
 import 'package:SkyView/API/openApi.dart';
 import 'package:SkyView/API/updateApi.dart';
 import 'package:SkyView/pages/main_page.dart';
+import 'package:SkyView/pages/start/entry.dart';
 import 'package:SkyView/widgets/cityList/card.dart';
 import 'package:SkyView/widgets/citybutton.dart';
 import 'package:flutter/material.dart';
@@ -191,6 +192,13 @@ class _DefinitionCityState extends State<DefinitionCity> {
                                     key: Key(cityName), // Уникальный ключ для элемента списка
                                     direction: DismissDirection.horizontal, // Направление свайпа
                                     onDismissed: (direction) {
+                                      showDialog(
+                                        context: context,
+                                        barrierDismissible: false, // блокируем закрытие окна при нажатии вне его
+                                        builder: (BuildContext context) {
+                                          return Entry();
+                                        },
+                                      );
                                       setState(() {
                                         Map<String, dynamic> cityData = {
                                           "city": cityName,

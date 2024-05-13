@@ -1,8 +1,7 @@
 import 'package:SkyView/Appconstants/constants.dart';
-import 'package:SkyView/pages/main_page.dart';
 import 'package:SkyView/pages/start/firstentry/definitioncity.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/services.dart';
 
 
 class WelcomePage extends StatefulWidget {
@@ -19,6 +18,12 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   Widget build(BuildContext context){
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,

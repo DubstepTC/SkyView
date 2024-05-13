@@ -75,7 +75,10 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                         SizedBox(width: screenWidth * 0.05,),
                         InkWell(
                           onTap: () {
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CitiesList(currentIndex: 0,)));
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => CitiesList(currentIndex: 0,)),
+                            );
                             setState(() {});
                           },
                           child: ColorFiltered(
@@ -158,7 +161,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                             itemBuilder: (context, index) {
                               final cityName = AppConstants.cityWeather[index]["city"];
                               final countryName = AppConstants.cityWeather[index]["country"] ?? '';
-                              final temperature = AppConstants.cityWeather[index]["temperature"].toString() ?? '-';
+                              final temperature = AppConstants.cityWeather[index]["temperature"].toString() ?? "-";
                               final weather = AppConstants.cityWeather[index]["weather_status"] ?? '';
                               return Column(
                                 children: [
@@ -166,7 +169,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                                     key: Key(cityName), // Уникальный ключ для элемента списка
                                     direction: DismissDirection.horizontal, // Направление свайпа
                                     onDismissed: (direction) {
-                                      setState(() async {
+                                      setState(()  {
                                         Map<String, dynamic> cityData = {
                                           "city": cityName,
                                           "country": countryName,
@@ -176,7 +179,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                                         AppConstants.cityWeather = [];
                                         searchController.text = "";
                                         //Добавление города в список
-                                        await add(cityData);
+                                        add(cityData);
                                         setState((){});
                                         AppConstants.savePreferences();
                                       });

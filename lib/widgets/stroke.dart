@@ -18,7 +18,7 @@ class Stroke extends StatelessWidget {
         children: [
           SizedBox(width: rectangleWidth * 0.083),
           SizedBox(
-            width: rectangleWidth * 0.4,
+            width: rectangleWidth * 0.48,
             child: Text(
               date,
               style: TextStyle(
@@ -29,9 +29,9 @@ class Stroke extends StatelessWidget {
               textAlign: TextAlign.start,
             ),
           ),
-          SizedBox(width: rectangleWidth * 0.12,),
+          SizedBox(width: rectangleWidth * 0.06,),
           SizedBox(
-            width: rectangleWidth * 0.24,
+            width: rectangleWidth * 0.2,
             child: Text(
               temperature,
               style: TextStyle(

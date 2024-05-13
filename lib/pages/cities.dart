@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:ui';
 import 'package:SkyView/API/futureApi.dart';
 import 'package:SkyView/API/updateApi.dart';
 import 'package:SkyView/pages/main_page.dart';
 import 'package:SkyView/pages/start/entry.dart';
+import 'package:SkyView/widgets/reorderable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:SkyView/Appconstants/constants.dart';
@@ -73,7 +75,7 @@ class _CitiesListState extends State<CitiesList> {
       onWillPop: () async {
         showDialog(
           context: context,
-          barrierDismissible: false, // блокируем закрытие окна при нажатии вне его
+          barrierDismissible: false, 
           builder: (BuildContext context) {
             return Entry();
           },
@@ -83,7 +85,7 @@ class _CitiesListState extends State<CitiesList> {
         await up();
         await updateList();
         Navigator.pop(context);
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen(currentIndex: widget.currentIndex,)));   
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MainScreen(currentIndex: 0)));   
         setState(() {});                
         return true;
       },
@@ -171,56 +173,56 @@ class _CitiesListState extends State<CitiesList> {
                               ]
                             )
                         )
-                        : ListView.builder(
-                            itemCount: AppConstants.cityCountryMap.length,
-                            itemBuilder: (context, index) {
-                              final cityName = AppConstants.cityCountryMap[index]["city"];
-                              final countryName = AppConstants.cityCountryMap[index]["country"] ?? '';
-                              final temperature = AppConstants.cityCountryMap[index]["temperature"].toString() ?? '-';
-                              final weather = AppConstants.cityCountryMap[index]["weather_status"] ?? '';
-                              return Column(
-                                children: [
-                                  Dismissible(
-                                    key: Key(cityName), // Уникальный ключ для элемента списка
-                                    direction: DismissDirection.endToStart, // Направление свайпа
-                                    onDismissed: (direction) {
-                                      setState(() {
-                                        // Удаление города из списка
-                                        AppConstants.weather.removeWhere((element) => element["city"] == cityName);
-                                        AppConstants.data.removeWhere((element) => element["city"] == cityName);
-                                        AppConstants.cityCountryMap.removeWhere((element) => element["city"] == cityName);
-                                        AppConstants.savePreferences();
-                                      });
-                                    },
-                                    background: Container(
-                                      alignment: Alignment.centerLeft,
-                                      decoration: const BoxDecoration(
-                                        color: Color.fromRGBO(39, 64, 87, 0),
-                                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                                      ),
-                                      padding: EdgeInsets.only(
-                                          left: MediaQuery.of(context).size.width * 0.60), // Добавляем отступ слева
-                                      child: const Icon(
-                                        Icons.delete, // Иконка удаления
-                                        size: 64.0, // Увеличиваем размер иконки
-                                        color: Colors.white,
-                                      ), // Иконка удаления
-                                    ),
-                                    child: ListTile(
-                                      title: CardCities(
-                                        height: 0.22,
-                                        width: 0.8,
-                                        temperature: temperature,
-                                        city: cityName,
-                                        country: countryName,
-                                        weather: weather,
-                                      ),
-                                    ),
+                        : ReorderableListView.builder(
+                          proxyDecorator: proxyDecorator,
+                          itemCount: AppConstants.cityCountryMap.length,
+                          onReorder: (int oldIndex, int newIndex) {
+                            setState(() {
+                              if (newIndex > oldIndex) {
+                                newIndex -= 1;
+                              } 
+                              final item = AppConstants.cityCountryMap.removeAt(oldIndex);
+                              AppConstants.cityCountryMap.insert(newIndex, item);
+                            });
+                          },
+                          itemBuilder: (context, index) {
+                            final cityName = AppConstants.cityCountryMap[index]["city"];
+                            final countryName = AppConstants.cityCountryMap[index]["country"] ?? '';
+                            final temperature = AppConstants.cityCountryMap[index]["temperature"].toString() ?? '-';
+                            final weather = AppConstants.cityCountryMap[index]["weather_status"] ?? '';
+                            return ReorderableItem(
+                              key: ValueKey(cityName),
+                              onReorder: (ReorderableItem ) { 
+                                
+                              },
+                              child: Dismissible(
+                                key: Key(cityName),
+                                onDismissed: (direction) {
+                                  if (direction == DismissDirection.endToStart) { // свайп влево
+                                    setState(() {
+                                      AppConstants.cityCountryMap.removeAt(index);
+                                    });
+                                  }
+                                },
+                                background: Container(
+                                  alignment: Alignment.centerRight,
+                                  color: Colors.transparent,
+                                  child: Icon(Icons.delete, size: 46, color: Colors.white,),
+                                ),
+                                child: ListTile(
+                                  title: CardCities(
+                                    height: 0.22,
+                                    width: 0.8,
+                                    temperature: temperature,
+                                    city: cityName,
+                                    country: countryName,
+                                    weather: weather,
                                   ),
-                                ],
-                              );
-                            },
-                          ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                   ),
                   SizedBox(height: screenHeight * 0.04,),  
                 ],
@@ -231,4 +233,22 @@ class _CitiesListState extends State<CitiesList> {
       ),
     );
   }
+
+  Widget proxyDecorator(
+        Widget child, int index, Animation<double> animation) {
+      return AnimatedBuilder(
+        animation: animation,
+        builder: (BuildContext context, Widget? child) {
+          final double animValue = Curves.easeInOut.transform(animation.value);
+          final double elevation = lerpDouble(0, 6, animValue)!;
+          return Material(
+            elevation: elevation,
+            color: Colors.transparent,
+            shadowColor: null,
+            child: child,
+          );
+        },
+        child: child,
+      );
+    }
 }

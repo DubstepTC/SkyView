@@ -23,6 +23,15 @@ class CardCities extends StatelessWidget {
     double rectangleHeight = screenHeight * height;
     //Функции
     WeatherHelper weatherHelper = WeatherHelper();
+
+    String countryname;
+
+    if (country == "Соединенные Штаты Америки"){
+      countryname = "США";
+    }
+    else {
+      countryname = country;
+    }
    
     return Stack(
       children: [
@@ -122,7 +131,7 @@ class CardCities extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              country,
+                              countryname,
                               textAlign: TextAlign.start,
                               style: const TextStyle(
                                 color: Colors.white,
