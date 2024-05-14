@@ -1,4 +1,3 @@
-import 'package:SkyView/Appconstants/constants.dart';
 import 'package:SkyView/pages/start/firstentry/definitioncity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

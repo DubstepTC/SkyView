@@ -7,7 +7,6 @@ import 'package:SkyView/pages/main_page.dart';
 import 'package:SkyView/Appconstants/constants.dart';
 import 'package:intl/intl.dart';
 import 'package:SkyView/pages/start/entry.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 
 void main() async {

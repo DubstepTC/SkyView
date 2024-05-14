@@ -1,5 +1,6 @@
 import 'package:SkyView/Appconstants/constants.dart';
 import 'package:SkyView/pages/start/firstentry/definitioncity.dart';
+import 'package:SkyView/pages/start/firstentry/introductionTwo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -105,11 +106,11 @@ class _IntroductionOneState extends State<IntroductionOne> {
                 SizedBox(
                   child: ElevatedButton(
                     onPressed: () {
-                      AppConstants.welcome = "true";
+                      AppConstants.welcome = "false";
                       AppConstants.savePreferences();
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => DefinitionCity()),
+                        MaterialPageRoute(builder: (context) => IntroductionTwo()),
                       );
                     },
                     style: ElevatedButton.styleFrom(

@@ -139,6 +139,12 @@ class _DefinitionCityState extends State<DefinitionCity> {
                                     style: TextStyle(
                                       color: AppConstants.nightColor,
                                     ),
+                                    onSubmitted: (String searchText) async{
+                                      FocusScope.of(context).unfocus();
+                                      String searchText = searchController.text;
+                                      await wap.getWeather(searchText);
+                                      setState(() {});
+                                    },
                                   ),
                                 ),
                                 Expanded(
