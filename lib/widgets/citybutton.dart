@@ -20,9 +20,27 @@ class OvalButtonWidget extends StatefulWidget {
 
 class _OvalButtonWidgetState extends State<OvalButtonWidget> {
 
-  Future add(cityData) async{
+  Future add(cityData) async {
+  bool cityExists = AppConstants.cityCountryMap.any((element) =>
+      element['city'].toLowerCase() == cityData['city'].toLowerCase());
+
+  if (!cityExists) {
     AppConstants.cityCountryMap.add(cityData);
-  } 
+  } else {
+    return const AlertDialog(
+      backgroundColor: Color.fromRGBO(39, 64, 87, 1),
+      content:  Text(
+        'Город уже выбран для отображения', 
+        textAlign: TextAlign.center, 
+        style: TextStyle(
+          color: Color.fromRGBO(194, 184, 255, 1), 
+          fontSize: 24, 
+          fontWeight: FontWeight.bold
+        ),
+      ),
+    );
+  }
+}
 
   WeatherScreen wap = WeatherScreen();
   Updateapi weather = Updateapi();

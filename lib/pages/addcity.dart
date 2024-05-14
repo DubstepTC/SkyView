@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:SkyView/API/openApi.dart';
 import 'package:SkyView/pages/cities.dart';
-import 'package:SkyView/widgets/cityList/card.dart';
+import 'package:SkyView/widgets/cityList/addcard.dart';
 import 'package:SkyView/widgets/citybutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,14 +19,33 @@ class SearchResultsScreen extends StatefulWidget {
 class _SearchResultsScreenState extends State<SearchResultsScreen> {
   TextEditingController searchController = TextEditingController();
 
-  Future add(cityData) async{
+  Future add(cityData) async {
+  bool cityExists = AppConstants.cityCountryMap.any((element) =>
+      element['city'].toLowerCase() == cityData['city'].toLowerCase());
+
+  if (!cityExists) {
     AppConstants.cityCountryMap.add(cityData);
-  } 
+  } else {
+    return const AlertDialog(
+      backgroundColor: Color.fromRGBO(39, 64, 87, 1),
+      content:  Text(
+        'Город уже выбран для отображения', 
+        textAlign: TextAlign.center, 
+        style: TextStyle(
+          color: Color.fromRGBO(194, 184, 255, 1), 
+          fontSize: 24, 
+          fontWeight: FontWeight.bold
+        ),
+      ),
+    );
+  }
+}
 
   WeatherScreen wap = WeatherScreen();
 
   @override
   Widget build(BuildContext context) {
+    
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -37,6 +56,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
 
     return WillPopScope(
       onWillPop: () async {
+        AppConstants.cityWeather = [];
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => CitiesList(currentIndex: 0,)),
@@ -76,6 +96,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                         SizedBox(width: screenWidth * 0.05,),
                         InkWell(
                           onTap: () {
+                            AppConstants.cityWeather = [];
                             Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) => CitiesList(currentIndex: 0,)),
@@ -207,7 +228,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                                       ), // Иконка удаления
                                     ),
                                     child: ListTile(
-                                      title: CardCities(
+                                      title: AddCardCities(
                                         height: 0.22,
                                         width: 0.8,
                                         temperature: temperature,

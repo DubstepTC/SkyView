@@ -88,7 +88,7 @@ class MainFrame extends StatelessWidget {
               )   
             ),
             SizedBox(
-              height: rectangleHeight * 0.45,
+              height: rectangleHeight * 0.4,
               width: rectangleWidth,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -123,7 +123,7 @@ class MainFrame extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: rectangleHeight * 0.3,
+              height: rectangleHeight * 0.35,
               width: rectangleWidth,
               child: Column(
                 children: [

@@ -1,6 +1,7 @@
 import 'package:SkyView/pages/start/firstentry/definitioncity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:SkyView/Appconstants/constants.dart';
 
 
 class IntroductionTwo extends StatefulWidget {
@@ -67,7 +68,7 @@ class _IntroductionTwoState extends State<IntroductionTwo> {
                       decoration:  BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         image: const DecorationImage(
-                          image: AssetImage("assets/intro/one.jpg"),
+                          image: AssetImage("assets/intro/screen_two.jpg"),
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -79,7 +80,7 @@ class _IntroductionTwoState extends State<IntroductionTwo> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         image: const DecorationImage(
-                          image: AssetImage("assets/intro/screen_six.jpg"),
+                          image: AssetImage("assets/intro/screen_two.jpg"),
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -104,6 +105,8 @@ class _IntroductionTwoState extends State<IntroductionTwo> {
                 SizedBox(
                   child: ElevatedButton(
                     onPressed: () {
+                      AppConstants.welcome = "true";
+                      AppConstants.savePreferences();
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => DefinitionCity()),
