@@ -80,7 +80,7 @@ class _IntroductionTwoState extends State<IntroductionTwo> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         image: const DecorationImage(
-                          image: AssetImage("assets/intro/screen_two.jpg"),
+                          image: AssetImage("assets/intro/screen_seven.jpg"),
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -92,7 +92,7 @@ class _IntroductionTwoState extends State<IntroductionTwo> {
                   height: MediaQuery.of(context).size.height * 0.24,
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: const Text(
-                    "На главном экране отображается основная информация о текущем дне: погодные условия, температура, уровень ультрафиолетового излучения, скорость ветра и влажность. Также можно просмотреть прогноз погоды на ближайшие 5 дней с указанием максимальной и минимальной температуры.",
+                    "Подробная информация о текущем дне доступна для просмотра. Вы можете проверить давление, влажность, вероятность осадков, время заката и восхода, а также почасовой прогноз на 24 часа.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color.fromRGBO(194, 184, 255, 1),

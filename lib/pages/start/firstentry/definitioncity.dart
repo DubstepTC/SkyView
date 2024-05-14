@@ -4,7 +4,7 @@ import 'package:SkyView/API/openApi.dart';
 import 'package:SkyView/API/updateApi.dart';
 import 'package:SkyView/pages/main_page.dart';
 import 'package:SkyView/pages/start/entry.dart';
-import 'package:SkyView/widgets/cityList/card.dart';
+import 'package:SkyView/widgets/cityList/startcard.dart';
 import 'package:SkyView/widgets/citybutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,9 +23,27 @@ class _DefinitionCityState extends State<DefinitionCity> {
   TextEditingController searchController = TextEditingController();
   Updateapi weather = Updateapi();
 
-  Future add(cityData) async{
+  Future add(cityData) async {
+  bool cityExists = AppConstants.cityCountryMap.any((element) =>
+      element['city'].toLowerCase() == cityData['city'].toLowerCase());
+
+  if (!cityExists) {
     AppConstants.cityCountryMap.add(cityData);
-  } 
+  } else {
+    return const AlertDialog(
+      backgroundColor: Color.fromRGBO(39, 64, 87, 1),
+      content:  Text(
+        'Город уже выбран для отображения', 
+        textAlign: TextAlign.center, 
+        style: TextStyle(
+          color: Color.fromRGBO(194, 184, 255, 1), 
+          fontSize: 24, 
+          fontWeight: FontWeight.bold
+        ),
+      ),
+    );
+  }
+} 
 
   WeatherScreen wap = WeatherScreen();
 
@@ -152,6 +170,7 @@ class _DefinitionCityState extends State<DefinitionCity> {
                                   child: IconButton(
                                     icon: Icon(Icons.search, color: Colors.white,),
                                     onPressed: () async {
+                                      FocusScope.of(context).unfocus();
                                       String searchText = searchController.text;
                                       await wap.getWeather(searchText);
                                       setState(() {});
@@ -238,7 +257,7 @@ class _DefinitionCityState extends State<DefinitionCity> {
                                       ),
                                     ),
                                     child: ListTile(
-                                      title: CardCities(
+                                      title: StartCardCities(
                                         height: 0.22,
                                         width: 0.8,
                                         temperature: temperature,
