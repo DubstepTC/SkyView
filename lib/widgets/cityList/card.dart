@@ -216,10 +216,10 @@ class CardCities extends StatefulWidget {
                             ),
                             Text(
                               countryname,
-                              textAlign: TextAlign.start,
+                              textAlign: TextAlign.center,
                               style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 14,
+                                fontSize: 13,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

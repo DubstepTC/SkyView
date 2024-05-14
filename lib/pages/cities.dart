@@ -237,7 +237,7 @@ class _CitiesListState extends State<CitiesList> {
                                 ),
                                 child: ListTile(
                                   title: CardCities(
-                                    height: 0.22,
+                                    height: 0.25,
                                     width: 0.8,
                                     temperature: temperature,
                                     city: cityName,
