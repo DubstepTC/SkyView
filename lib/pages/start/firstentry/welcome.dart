@@ -1,5 +1,7 @@
 import 'package:SkyView/Appconstants/constants.dart';
+import 'package:SkyView/function/animation.dart';
 import 'package:SkyView/pages/start/firstentry/introductionOne.dart';
+import 'package:SkyView/pages/start/firstentry/introductionTwo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -88,7 +90,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => IntroductionOne()),
+                      AnimatedTransition(enterPage: IntroductionOne()),
                     );
                   },
                   style: ElevatedButton.styleFrom(

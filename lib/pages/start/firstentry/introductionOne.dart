@@ -1,3 +1,4 @@
+import 'package:SkyView/function/animation.dart';
 import 'package:SkyView/pages/start/firstentry/introductionTwo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -58,33 +59,62 @@ class _IntroductionOneState extends State<IntroductionOne> {
                   ),
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.width * 0.62,
-                      width: MediaQuery.of(context).size.width * 0.3,
-                      decoration:  BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        image: const DecorationImage(
-                          image: AssetImage("assets/intro/one.jpg"),
-                          fit: BoxFit.fill,
+                Stack(
+                  children: [ 
+                    Column(children: [
+                    SizedBox(height: MediaQuery.of(context).size.width * 0.05,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: MediaQuery.of(context).size.width * 0.59,
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          decoration:  BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            image: const DecorationImage(
+                              image: AssetImage("assets/intro/screen_three.jpg"),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    const SizedBox(width: 10,),
-                    Container(
-                      height: MediaQuery.of(context).size.width * 0.62,
-                      width: MediaQuery.of(context).size.width * 0.3,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        image: const DecorationImage(
-                          image: AssetImage("assets/intro/screen_six.jpg"),
-                          fit: BoxFit.fill,
+                        const SizedBox(width: 80,),
+                        Container(
+                          height: MediaQuery.of(context).size.width * 0.59,
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            image: const DecorationImage(
+                              image: AssetImage("assets/intro/screen_two.jpg"),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
+                    ],),
+                    Row (
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                     Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: MediaQuery.of(context).size.width * 0.64,
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          decoration:  BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            image: const DecorationImage(
+                              image: AssetImage("assets/intro/screen_one.jpg"),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 30,)
+                      ],
+                    ),
+                    ],)
+                  ]
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
                 SizedBox(
@@ -106,7 +136,7 @@ class _IntroductionOneState extends State<IntroductionOne> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => IntroductionTwo()),
+                        AnimatedTransition(enterPage: IntroductionTwo()),
                       );
                     },
                     style: ElevatedButton.styleFrom(

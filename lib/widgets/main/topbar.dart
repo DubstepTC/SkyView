@@ -1,7 +1,9 @@
 import 'package:SkyView/API/openApi.dart';
 import 'package:SkyView/Appconstants/constants.dart';
+import 'package:SkyView/function/animation.dart';
 import 'package:SkyView/pages/cities.dart';
 import 'package:SkyView/pages/settings.dart';
+import 'package:SkyView/pages/start/firstentry/introductionTwo.dart';
 import 'package:flutter/material.dart';
 import 'package:SkyView/widgets/main/city.dart';
 
@@ -60,10 +62,9 @@ class _TopState extends State<Top> {
           SizedBox(width:  rectangleWidth * 0.10,),
           InkWell(
             onTap: () {
-              print(AppConstants.cityCountryMap);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Settings()),
+                AnimatedTransition(enterPage: Settings()),
               );
             },
             child: ColorFiltered(

@@ -47,7 +47,7 @@ class Updateapi {
         wind = (data['current']['wind_mph']).toString();
       }
       else if (AppConstants.windSpeed == "Шкала Бофорта") {
-        int s = int.parse(data['current']['wind_kph']);
+        int s = int.parse(data['current']['wind_kph'].round().toString());
         s = (s * 0.539957).round();
         if (s < 1) {
           wind = "0";

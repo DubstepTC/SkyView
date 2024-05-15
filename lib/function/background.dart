@@ -8,6 +8,7 @@ class BackgroundHelper {
       case 'Солнечно':
         return "assets/images/background_clear.jpg";
       case 'Дождь':
+      case 'Небольшой дождь':
         return "assets/images/background_rain.jpg";
       case 'Снег':
         return "assets/images/background_snowfall.jpg";

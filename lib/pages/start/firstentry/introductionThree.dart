@@ -1,17 +1,16 @@
-import 'package:SkyView/Appconstants/constants.dart';
 import 'package:SkyView/function/animation.dart';
-import 'package:SkyView/pages/start/firstentry/introductionThree.dart';
+import 'package:SkyView/pages/start/firstentry/introductionFour.dart';
 import 'package:SkyView/pages/start/firstentry/introductionTwo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 
-class IntroductionTwo extends StatefulWidget {
+class IntroductionThree extends StatefulWidget {
   @override
-  _IntroductionTwoState createState() => _IntroductionTwoState();
+  _IntroductionThreeState createState() => _IntroductionThreeState();
 }
 
-class _IntroductionTwoState extends State<IntroductionTwo> {
+class _IntroductionThreeState extends State<IntroductionThree> {
 
   @override
   Widget build(BuildContext context){
@@ -74,7 +73,7 @@ class _IntroductionTwoState extends State<IntroductionTwo> {
                           decoration:  BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             image: const DecorationImage(
-                              image: AssetImage("assets/intro/screen_five.jpg"),
+                              image: AssetImage("assets/intro/screen_eight.jpg"),
                               fit: BoxFit.fill,
                             ),
                           ),
@@ -86,7 +85,7 @@ class _IntroductionTwoState extends State<IntroductionTwo> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             image: const DecorationImage(
-                              image: AssetImage("assets/intro/screen_six.jpg"),
+                              image: AssetImage("assets/intro/screen_nine.jpg"),
                               fit: BoxFit.fill,
                             ),
                           ),
@@ -107,7 +106,7 @@ class _IntroductionTwoState extends State<IntroductionTwo> {
                           decoration:  BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             image: const DecorationImage(
-                              image: AssetImage("assets/intro/screen_four.jpg"),
+                              image: AssetImage("assets/intro/screen_seven.jpg"),
                               fit: BoxFit.fill,
                             ),
                           ),
@@ -123,7 +122,7 @@ class _IntroductionTwoState extends State<IntroductionTwo> {
                   height: MediaQuery.of(context).size.height * 0.24,
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: const Text(
-                    "Подробная информация о текущем дне доступна для просмотра. Вы можете проверить давление, влажность, вероятность осадков, время заката и восхода, а также почасовой прогноз на 24 часа.",
+                    "У вас есть возможность создавать списки городов, которые вы хотите отслеживать и упорядочивать их в удобном для вас порядке. Кроме того, вы можете добавлять города с помощью популярных населенных пунктов или находить необходимые по их названию. Ваш список городов может быть уникальным для вас.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color.fromRGBO(194, 184, 255, 1),
@@ -138,7 +137,7 @@ class _IntroductionTwoState extends State<IntroductionTwo> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        AnimatedTransition(enterPage: IntroductionThree()),
+                        AnimatedTransition(enterPage: IntroductionFour()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
