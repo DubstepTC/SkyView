@@ -5,7 +5,6 @@ import 'package:SkyView/function/weatherImage.dart';
 import 'package:SkyView/pages/day.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart';
 
 class MainFrame extends StatelessWidget {
   final double width;
@@ -63,9 +62,13 @@ class MainFrame extends StatelessWidget {
       child: Container(
         width: rectangleWidth,
         height: rectangleHeight,
-        decoration: const BoxDecoration(
-          color:  Color.fromRGBO(39, 64, 87, 0.35),
-          borderRadius: BorderRadius.all(Radius.circular(30)),
+        decoration: BoxDecoration(
+          color:  const Color.fromRGBO(39, 64, 87, 0.35),
+          borderRadius: const BorderRadius.all(Radius.circular(30)),
+          border: Border.all(
+            color: AppConstants.nightColor, // цвет фиолетовой рамки
+            width: 1.0, // толщина рамки
+          ),
         ),
         child: Column(
           children: [
@@ -123,7 +126,7 @@ class MainFrame extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: rectangleHeight * 0.35,
+              height: rectangleHeight * 0.32,
               width: rectangleWidth,
               child: Column(
                 children: [

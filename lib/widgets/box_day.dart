@@ -22,10 +22,14 @@ class Box extends StatelessWidget {
     return Container(
       width: rectangleWidth,
       height: rectangleHeight,
-      decoration: const BoxDecoration(
+      decoration:  BoxDecoration(
         shape: BoxShape.rectangle,
         borderRadius: BorderRadius.all(Radius.circular(20)),
         color: Color.fromRGBO(39, 64, 87, 0.35),
+        border: Border.all(
+            color: AppConstants.nightColor, // цвет фиолетовой рамки
+            width: 1.0, // толщина рамки
+        ),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

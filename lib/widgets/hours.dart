@@ -46,6 +46,10 @@ class HoursList extends StatelessWidget {
               decoration: BoxDecoration(
                 color: const Color.fromRGBO(39, 64, 87, 0.35),
                 borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                  color: AppConstants.nightColor, // цвет фиолетовой рамки
+                  width: 1.0, // толщина рамки
+                ),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

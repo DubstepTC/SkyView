@@ -13,6 +13,10 @@ class SunriseSunsetWidget extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: const Color.fromRGBO(39, 64, 87, 0.35),
+        border: Border.all(
+            color: AppConstants.nightColor, // цвет фиолетовой рамки
+            width: 1.0, // толщина рамки
+        ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

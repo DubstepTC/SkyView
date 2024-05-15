@@ -10,15 +10,19 @@ dependencies:
   fl_chart: ^0.68.0
   flutter:
     sdk: flutter
+  flutter_local_notifications: ^17.1.2
   flutter_rating_bar: ^4.0.1
   flutter_sequence_animation: ^4.0.0
   flutter_translate: ^4.0.4
   geolocator: ^11.0.0
-  http: ^1.2.1
   shared_preferences: ^2.2.3
   syncfusion_flutter_charts: ^25.2.3+1
   timezone: ^0.9.3
-  translator: ^1.0.0
+  http: ^0.13.3
+  gallery_saver: ^2.3.2
+  workmanager: ^0.5.2
+  home_widget: ^0.6.0
+  davinci: ^2.1.1 
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1

@@ -27,9 +27,18 @@ class TableFrame extends StatelessWidget {
     return Container(
       width: rectangleWidth,
       height: rectangleHeight,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: Color.fromRGBO(39, 64, 87, 0.35),
         borderRadius: BorderRadius.only(topLeft: Radius.circular(50), topRight: Radius.circular(50)),
+        border: Border(
+          top: BorderSide(
+            color: AppConstants.nightColor, // цвет фиолетовой рамки
+            width: 1.0, // толщина рамки
+          ),
+          left: BorderSide.none, // без рамки слева
+          right: BorderSide.none, // без рамки справа
+          bottom: BorderSide.none, // без рамки снизу
+        ),
       ),
       child: Column (
         children: [

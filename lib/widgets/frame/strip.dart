@@ -39,15 +39,19 @@ class StripFarme extends StatelessWidget {
     return Container(
       width: rectangleWidth,
       height: rectangleHeight,
-      decoration: const BoxDecoration(
+      decoration:  BoxDecoration(
         color: Color.fromRGBO(39, 64, 87, 0.35),
         borderRadius: BorderRadius.all(Radius.circular(30)),
+        border: Border.all(
+            color: AppConstants.nightColor, // цвет фиолетовой рамки
+            width: 1.0, // толщина рамки
+        ),
       ),
       child: Row(
         children: [
           SizedBox(
             height: rectangleHeight,
-            width: rectangleWidth * 0.05,
+            width: rectangleWidth * 0.04,
           ),
           SizedBox(
             height: rectangleHeight,
