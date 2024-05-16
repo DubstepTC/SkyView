@@ -27,6 +27,10 @@ class WeatherScreen {
       else {
         t = (temp * 1.8 + 32).round();
       }
+      if (data['location']['name'] == "Архангельск"){
+        data['location']['country'] = "Россия";
+      }
+
 
       cities.add({
         'city': data['location']['name'],

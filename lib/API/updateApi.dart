@@ -90,6 +90,7 @@ class Updateapi {
         'wind_kph': wind,
         'humidity': data['current']['humidity'],
         'uv': data['current']['uv'],
+        'feelslike': data['current']['feelslike_c'].round(),
         'feelslike_c': t_feelslike_c,
       });
       updateWeatherForCities(cities);

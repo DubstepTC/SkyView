@@ -1,3 +1,4 @@
+import 'package:SkyView/Appconstants/constants.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class Notifications {
@@ -6,36 +7,40 @@ class Notifications {
   Notifications(this.flutterLocalNotificationsPlugin);
 
   // Initialize notifications channel
-  AndroidNotificationChannel channel = const AndroidNotificationChannel(
+  AndroidNotificationChannel channel =  AndroidNotificationChannel(
     'your_channel_id',
     'Channel name',
+    ledColor: AppConstants.nightColor,
     importance: Importance.high,
   );
 
   void initializeNotifications() {
     final AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings('drawable/s');
 
     final InitializationSettings initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
     );
 
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
-    flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(channel);
   }
 
-  Future<void> showNotification({required String title, required String message}) async {
-    const AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      'your_channel_id',
-      'your_channel_name',
-      channelDescription: 'your_channel_description',
-      importance: Importance.max,
-      priority: Priority.high,
+  Future<void> showNotification({
+    required String title,
+    required String message, // Добавьте этот параметр для динамического текста
+  }) async {
+    BigTextStyleInformation bigTextStyleInformation = BigTextStyleInformation(
+      message,
+      contentTitle: title, // Это можно сделать динамическим, если нужно
+      summaryText: 'Подробнее...',
+    );
+    AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
+      "SKYVIEW",
+      "Sky",// Добавлено описание канала
+      styleInformation: bigTextStyleInformation,
     );
 
-    const NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);
+    NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);
 
     await flutterLocalNotificationsPlugin.show(
       0,
@@ -45,4 +50,5 @@ class Notifications {
       payload: 'your_payload',
     );
   }
+
 }

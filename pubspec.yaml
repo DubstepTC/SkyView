@@ -10,7 +10,7 @@ dependencies:
   fl_chart: ^0.68.0
   flutter:
     sdk: flutter
-  flutter_local_notifications: ^17.1.2
+  flutter_local_notifications: ^17.0.0
   flutter_rating_bar: ^4.0.1
   flutter_sequence_animation: ^4.0.0
   flutter_translate: ^4.0.4
@@ -23,6 +23,8 @@ dependencies:
   workmanager: ^0.5.2
   home_widget: ^0.6.0
   davinci: ^2.1.1 
+  webview_flutter: ^2.0.4
+  flutter_webview_plugin: ^0.4.0
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1
@@ -38,6 +40,9 @@ flutter:
     - assets/intro/
     - assets/images/
     - assets/signs/
+    - assets/clother/
+    - assets/leisure/
+    
    
 flutter_icons:
   android: "launcher_icon"

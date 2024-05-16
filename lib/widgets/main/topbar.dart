@@ -2,6 +2,8 @@ import 'package:SkyView/API/openApi.dart';
 import 'package:SkyView/Appconstants/constants.dart';
 import 'package:SkyView/function/animation.dart';
 import 'package:SkyView/pages/cities.dart';
+import 'package:SkyView/pages/intresting.dart';
+import 'package:SkyView/pages/map.dart';
 import 'package:SkyView/pages/settings.dart';
 import 'package:SkyView/pages/start/firstentry/introductionTwo.dart';
 import 'package:flutter/material.dart';
@@ -61,11 +63,78 @@ class _TopState extends State<Top> {
           ),
           SizedBox(width:  rectangleWidth * 0.10,),
           InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                AnimatedTransition(enterPage: Settings()),
+            onTap: () async {
+              final String? userChoice = await showDialog<String>(
+                context: context,
+                builder: (BuildContext context) {
+                  return Align(
+                    alignment: Alignment.topRight,
+                    child: SimpleDialog(
+                      backgroundColor: Color.fromRGBO(39, 64, 87, 1),
+                      children: <Widget>[
+                        SimpleDialogOption(
+                          onPressed: () { Navigator.pop(context, 'Интересное'); },
+                          child: Text(
+                            'Интересное',
+                            style: TextStyle(
+                              color: AppConstants.nightColor,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center
+                          ),
+                        ),
+                        const SizedBox(height: 20,),
+                        SimpleDialogOption(
+                          onPressed: () { Navigator.pop(context, 'Карта'); },
+                          child: Text(
+                            'Карта',
+                            style: TextStyle(
+                              color: AppConstants.nightColor,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center
+                          ),
+                        ),
+                        const SizedBox(height: 20,),
+                        SimpleDialogOption(
+                          onPressed: () { Navigator.pop(context, 'Настройки'); },
+                          child: Text(
+                            'Настройки',
+                            style: TextStyle(
+                              color: AppConstants.nightColor,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
               );
+
+
+              if (userChoice != null) {
+                if (userChoice == 'Интересное') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Intresting(currentIndex: widget.currentIndex,)),
+                  );
+                } else if (userChoice == 'Настройки') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Settings(currentIndex: widget.currentIndex)),
+                  );
+                } else if (userChoice == 'Карта') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MyWebViewPage('https://www.windy.com/?55.470,37.224,7')),
+                  );
+                }
+              }
             },
             child: ColorFiltered(
               colorFilter: ColorFilter.mode(const Color.fromARGB(255, 255, 255, 255), BlendMode.modulate), // Замените Colors.red на нужный вам цвет

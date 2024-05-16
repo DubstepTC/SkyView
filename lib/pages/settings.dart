@@ -9,7 +9,8 @@ import 'package:SkyView/widgets/background.dart';
 import 'package:flutter/services.dart';
 
 class Settings extends StatefulWidget {
-  const Settings({super.key});
+  final int currentIndex;
+  const Settings({super.key, required this.currentIndex});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -17,7 +18,6 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  int currentIndex = 0;
   
 @override
 Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ Widget build(BuildContext context) {
       onWillPop: () async {
           await speed.updateList();
           await temperature.updateList();
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MainScreen(currentIndex: 0,)));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen(currentIndex: widget.currentIndex,)));
           setState(() {});
         return true;
       },
@@ -76,7 +76,7 @@ Widget build(BuildContext context) {
                             await temperature.updateList();
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => MainScreen(currentIndex: 0,)),
+                              MaterialPageRoute(builder: (context) => MainScreen(currentIndex: widget.currentIndex,)),
                             );
                             setState(() {});
                           },

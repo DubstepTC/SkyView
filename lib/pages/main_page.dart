@@ -1,4 +1,7 @@
 import 'package:SkyView/function/background.dart';
+import 'package:SkyView/function/notification.dart';
+import 'package:SkyView/function/string_n.dart';
+import 'package:SkyView/widgets/clothes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:SkyView/Appconstants/constants.dart';
@@ -7,6 +10,7 @@ import 'package:SkyView/widgets/frame/strip.dart';
 import 'package:SkyView/widgets/frame/table.dart';
 import 'package:SkyView/widgets/main/emty.dart';
 import 'package:SkyView/widgets/main/topbar.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class MainScreen extends StatefulWidget {
   final int currentIndex;
@@ -35,6 +39,27 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    // Создайте экземпляр класса Notifications
+  Notifications notifications = Notifications(FlutterLocalNotificationsPlugin());
+  StringN str = StringN();
+  // Инициализируйте настройки уведомлений
+  notifications.initializeNotifications();
+
+    DateTime now = DateTime.now();
+    String day = now.year.toString() + "-" + now.month.toString() + "-" + now.day.toString();
+    if (AppConstants.day != day)
+    {
+      // Вызовите showNotification 
+      notifications.showNotification(
+        title: 'Совет дня',
+        message: str.getWeatherAdvice(AppConstants.weather[0]["weather_status"], AppConstants.weather[0]["temperature"]),
+      );
+      AppConstants.day = day;
+    }
+    AppConstants.savePreferences();
+    
+    
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,

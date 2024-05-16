@@ -48,6 +48,8 @@ class AppConstants {
   static String pressure = "";
 
   static String welcome = "false";
+  static String nt = "false";
+  static String day = "";
 
   static late SharedPreferences _preferences;
 
@@ -57,6 +59,7 @@ class AppConstants {
     windSpeed = _preferences.getString('windSpeed') ?? "Километры в час"; // Исправлено название переменной
     pressure = _preferences.getString('pressure') ?? "Миллиметр ртутного столба (мм рт. ст)";
     welcome = _preferences.getString("welcome")?? "false";
+    day = _preferences.getString("day")?? "false";
 
     String? cityCountryMapAsString = _preferences.getString('cityCountryMap');
     if (cityCountryMapAsString != null) {
@@ -73,6 +76,7 @@ class AppConstants {
     await _preferences.setString('windSpeed', windSpeed); // Исправлено название переменной
     await _preferences.setString('pressure', pressure);
     await _preferences.setString('welcome', welcome);
+    await _preferences.setString('day', day);
 
     String cityCountryMapAsString = jsonEncode(cityCountryMap);
     await _preferences.setString('cityCountryMap', cityCountryMapAsString);

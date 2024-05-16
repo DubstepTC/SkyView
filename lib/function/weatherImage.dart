@@ -8,6 +8,7 @@ class WeatherHelper {
         return Image.asset("assets/signs/clear.png");
       case 'Дождь':
       case 'Мелкий дождь':
+      case 'Небольшой дождь':
         return Image.asset("assets/signs/rain.png");
       case 'Снег':
         return Image.asset("assets/signs/snow.png");
