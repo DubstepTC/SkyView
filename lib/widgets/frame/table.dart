@@ -49,7 +49,7 @@ class TableFrame extends StatelessWidget {
               children: [
                 SizedBox(width: rectangleWidth * 0.05),
                 SizedBox(
-                  width: rectangleWidth * 0.4,
+                  width: rectangleWidth * 0.35,
                   child: const Text(
                     "Прогноз на 5 дней",
                     style: const TextStyle(
@@ -62,7 +62,7 @@ class TableFrame extends StatelessWidget {
                 ),
                 SizedBox(width: rectangleWidth * 0.2,),
                 SizedBox(
-                  width: rectangleWidth * 0.2,
+                  width: rectangleWidth * 0.25,
                   child: const Text(
                     "Подробнее",
                     style: const TextStyle(

@@ -118,7 +118,7 @@ class _IntroductionOneState extends State<IntroductionOne> {
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.24,
+                  height: MediaQuery.of(context).size.height * 0.26,
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: const Text(
                     "На главном экране отображается основная информация о текущем дне: погодные условия, температура, уровень ультрафиолетового излучения, скорость ветра и влажность. Также можно просмотреть прогноз погоды на ближайшие 5 дней с указанием максимальной и минимальной температуры.",
@@ -130,7 +130,7 @@ class _IntroductionOneState extends State<IntroductionOne> {
                     ),
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.08,),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.06,),
                 SizedBox(
                   child: ElevatedButton(
                     onPressed: () {

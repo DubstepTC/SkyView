@@ -120,7 +120,7 @@ class _IntroductionTwoState extends State<IntroductionTwo> {
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.24,
+                  height: MediaQuery.of(context).size.height * 0.26,
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: const Text(
                     "Подробная информация о текущем дне доступна для просмотра. Вы можете проверить давление, влажность, вероятность осадков, время заката и восхода, а также почасовой прогноз на 24 часа.",
@@ -132,7 +132,7 @@ class _IntroductionTwoState extends State<IntroductionTwo> {
                     ),
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.08,),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.06,),
                 SizedBox(
                   child: ElevatedButton(
                     onPressed: () {

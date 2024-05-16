@@ -33,7 +33,7 @@ class HoursList extends StatelessWidget {
     WeatherHelper weatherHelper = WeatherHelper();
 
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.17,
+      height: MediaQuery.of(context).size.height * 0.175,
       width: MediaQuery.of(context).size.width * 0.95,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,

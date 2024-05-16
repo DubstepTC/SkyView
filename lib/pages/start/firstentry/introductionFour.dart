@@ -120,7 +120,7 @@ class _IntroductionFourState extends State<IntroductionFour> {
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.24,
+                  height: MediaQuery.of(context).size.height * 0.26,
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: const Text(
                     "Существуют настройки, которые позволяют изменить системы измерения температуры, скорости ветра и давления. Вы можете индивидуально настроить предпочтительные единицы измерения для каждого из параметров. Это позволит вам удобно отслеживать погодные.",
@@ -132,7 +132,7 @@ class _IntroductionFourState extends State<IntroductionFour> {
                     ),
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.08,),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.06,),
                 SizedBox(
                   child: ElevatedButton(
                     onPressed: () {

@@ -119,7 +119,7 @@ class _IntroductionThreeState extends State<IntroductionThree> {
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.24,
+                  height: MediaQuery.of(context).size.height * 0.26,
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: const Text(
                     "У вас есть возможность создавать списки городов, которые вы хотите отслеживать и упорядочивать их в удобном для вас порядке. Кроме того, вы можете добавлять города с помощью популярных населенных пунктов или находить необходимые по их названию. Ваш список городов может быть уникальным для вас.",
@@ -131,7 +131,7 @@ class _IntroductionThreeState extends State<IntroductionThree> {
                     ),
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.08,),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.06,),
                 SizedBox(
                   child: ElevatedButton(
                     onPressed: () {
