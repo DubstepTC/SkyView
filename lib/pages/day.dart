@@ -147,27 +147,27 @@ class _DayScreenState extends State<DayScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Box(width: 0.4, height: 0.15, meaning: AppConstants.weather[widget.currentIndex]["temperature"].toString() + " " + AppConstants.temperature, name: "Температура",),
+                            Box(width: 0.4, height: 0.145, meaning: AppConstants.weather[widget.currentIndex]["temperature"].toString() + " " + AppConstants.temperature, name: "Температура",),
                             const SizedBox(width: 10,),
-                            Box(width: 0.4, height: 0.15, meaning: AppConstants.weather[widget.currentIndex]["feelslike_c"].toString() + " " + AppConstants.temperature, name: "Ощущается",)
+                            Box(width: 0.4, height: 0.145, meaning: AppConstants.weather[widget.currentIndex]["feelslike_c"].toString() + " " + AppConstants.temperature, name: "Ощущается",)
                           ],
                         ),
                         const SizedBox(height: 10,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Box(width: 0.4, height: 0.15, meaning: AppConstants.weather[widget.currentIndex]["uv"].toString(), name: "Уф",),
+                            Box(width: 0.4, height: 0.145, meaning: AppConstants.weather[widget.currentIndex]["uv"].toString(), name: "Уф",),
                             const SizedBox(width: 10,),
-                            Box(width: 0.4, height: 0.15, meaning: AppConstants.hours[widget.currentIndex]["pressure_mb"].toString() + "\n" + pressure, name: "Давление",)
+                            Box(width: 0.4, height: 0.145, meaning: AppConstants.hours[widget.currentIndex]["pressure_mb"].toString() + "\n" + pressure, name: "Давление",)
                           ],
                         ),
                         const SizedBox(height: 10,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Box(width: 0.4, height: 0.15, meaning: AppConstants.weather[widget.currentIndex]["humidity"].toString() + "%", name: "Влажность",),
+                            Box(width: 0.4, height: 0.145, meaning: AppConstants.weather[widget.currentIndex]["humidity"].toString() + "%", name: "Влажность",),
                             const SizedBox(width: 10,),
-                            Box(width: 0.4, height: 0.15, meaning: AppConstants.hours[widget.currentIndex]["chance"].toString() + "%", name: "Вероятность осадков",)
+                            Box(width: 0.4, height: 0.145, meaning: AppConstants.hours[widget.currentIndex]["chance"].toString() + "%", name: "Вероятность осадков",)
                           ],
                         ),
                         const SizedBox(height: 10,),

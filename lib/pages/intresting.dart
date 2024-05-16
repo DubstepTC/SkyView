@@ -153,7 +153,7 @@ class _IntrestingState extends State<Intresting> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.04,
+                    height: MediaQuery.of(context).size.height * 0.08,
                     child: SizedBox(
                       height: MediaQuery.of(context).size.height * 0.1,
                       width: MediaQuery.of(context).size.width,
@@ -232,7 +232,7 @@ class _IntrestingState extends State<Intresting> {
                     ),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.52,
+                    height: MediaQuery.of(context).size.height * 0.48,
                     width: MediaQuery.of(context).size.width * 0.8,
                     child: ListView.builder(
                       itemCount: myList.where((item) => item['status'] == st).length,
