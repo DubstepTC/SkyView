@@ -12,11 +12,11 @@ class WeatherHelper {
     switch (weather) {
       case 'Ясно':
       case 'Солнечно':
-        if (currentTime >= 17) {
-          return Image.asset("assets/signs/month.png");
+        if (currentTime >= 4 && currentTime <= 17) {
+          return Image.asset("assets/signs/clear.png");
         }
         else {
-          return Image.asset("assets/signs/clear.png");
+          return Image.asset("assets/signs/month.png");
         }
       case 'Дождь':
       case 'Мелкий дождь':

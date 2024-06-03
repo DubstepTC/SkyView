@@ -1,11 +1,23 @@
-import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class BackgroundHelper {
   String buildWeatherImage(String weather) {
+
+    var now = DateTime.now();
+    var formatter = DateFormat('HH');
+    var formattedTime = formatter.format(now);
+    int currentTime = int.parse(formattedTime);
+  
+
     switch (weather) {
       case 'Ясно':
       case 'Солнечно':
-        return "assets/images/background_clear.jpg";
+         if (currentTime >= 4 && currentTime <= 17) {
+          return "assets/images/background_clear.jpg";
+        }
+        else {
+          return "assets/images/background_night.jpg";
+        }
       case 'Дождь':
       case 'Мелкий дождь':
       case 'Небольшой дождь':

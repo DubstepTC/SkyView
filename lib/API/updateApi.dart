@@ -26,7 +26,10 @@ class Updateapi {
 
       switch (translatedWeatherStatus) {
         case 'Солнечно':
-          if (currentTime >= 17) {
+          if (currentTime >= 4 && currentTime <= 17) {
+            translatedWeatherStatus = 'Солнечно';
+          }
+          else {
             translatedWeatherStatus = 'Ясно';
           }
           break;
