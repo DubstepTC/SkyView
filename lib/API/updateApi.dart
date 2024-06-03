@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:SkyView/Appconstants/constants.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class Updateapi {
   final String apiKey = '52055ecf549b4497813111413242104';
@@ -18,7 +19,17 @@ class Updateapi {
       String weatherStatus = data['current']['condition']['text'];
       String translatedWeatherStatus = weatherStatusTranslations[weatherStatus] ?? weatherStatus;
 
+      var now = DateTime.now();
+      var formatter = DateFormat('HH');
+      var formattedTime = formatter.format(now);
+      int currentTime = int.parse(formattedTime);
+
       switch (translatedWeatherStatus) {
+        case 'Солнечно':
+          if (currentTime >= 17) {
+            translatedWeatherStatus = 'Ясно';
+          }
+          break;
         case 'Умеренный или сильный ледяной дождь':
         case 'Умеренный или сильный переохлажденный дождь':
         case 'Умеренный или сильный ливневый дождь':
