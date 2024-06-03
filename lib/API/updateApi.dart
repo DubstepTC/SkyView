@@ -18,6 +18,29 @@ class Updateapi {
       String weatherStatus = data['current']['condition']['text'];
       String translatedWeatherStatus = weatherStatusTranslations[weatherStatus] ?? weatherStatus;
 
+      switch (translatedWeatherStatus) {
+        case 'Умеренный или сильный ледяной дождь':
+        case 'Умеренный или сильный переохлажденный дождь':
+        case 'Умеренный или сильный ливневый дождь':
+        case 'Слабый переохлажденный дождь':
+          translatedWeatherStatus = 'Умеренный дождь';
+            break;
+        case 'Небольшой дождь со снегом':
+        case 'Умеренный или сильный дождь со снегом':
+        case 'Небольшой ливневый дождь со снегом':
+        case 'Умеренные или сильные ливневые дожди со снегом':
+          translatedWeatherStatus = 'Дождь со снегом';
+          break;
+        case 'В отдельных районах местами небольшой дождь с грозой':
+        case 'В отдельных районах умеренный или сильный дождь с грозой':
+        case 'В отдельных районах местами небольшой снег с грозой':
+        case 'В отдельных районах умеренный или сильный снег с грозой':
+          translatedWeatherStatus = 'Местами грозы';
+          break;
+        default:
+          break;
+      }
+
       //Температура
       double temp = data['current']['temp_c'];
       int t;

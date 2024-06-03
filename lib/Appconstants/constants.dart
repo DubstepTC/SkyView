@@ -44,7 +44,7 @@ class AppConstants {
   static Color backColor = const Color.fromRGBO(39, 64, 87, 0.35);
 
   static String temperature = "";
-  static String windSpeed = ""; // Исправлено название переменной
+  static String windSpeed = "";
   static String pressure = "";
 
   static String welcome = "false";
@@ -56,7 +56,7 @@ class AppConstants {
   static Future<void> initialize() async {
     _preferences = await SharedPreferences.getInstance();
     temperature = _preferences.getString('temperature') ?? "°C";
-    windSpeed = _preferences.getString('windSpeed') ?? "Километры в час"; // Исправлено название переменной
+    windSpeed = _preferences.getString('windSpeed') ?? "Километры в час";
     pressure = _preferences.getString('pressure') ?? "Миллиметр ртутного столба (мм рт. ст)";
     welcome = _preferences.getString("welcome")?? "false";
     day = _preferences.getString("day")?? "false";
@@ -73,7 +73,7 @@ class AppConstants {
 
   static Future<void> savePreferences() async {
     await _preferences.setString('temperature', temperature);
-    await _preferences.setString('windSpeed', windSpeed); // Исправлено название переменной
+    await _preferences.setString('windSpeed', windSpeed);
     await _preferences.setString('pressure', pressure);
     await _preferences.setString('welcome', welcome);
     await _preferences.setString('day', day);
