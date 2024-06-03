@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class WeatherHelper {
   Widget buildWeatherImage(String weather) {
+
+    var now = DateTime.now();
+    var formatter = DateFormat('HH');
+    var formattedTime = formatter.format(now);
+    int currentTime = int.parse(formattedTime);
+  
     switch (weather) {
       case 'Ясно':
       case 'Солнечно':
-        return Image.asset("assets/signs/clear.png");
+        if (currentTime >= 17) {
+          return Image.asset("assets/signs/month.png");
+        }
+        else {
+          return Image.asset("assets/signs/clear.png");
+        }
       case 'Дождь':
       case 'Мелкий дождь':
       case 'Небольшой дождь':

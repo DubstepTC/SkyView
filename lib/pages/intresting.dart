@@ -1,9 +1,6 @@
 import 'package:SkyView/pages/main_page.dart';
 import 'package:SkyView/widgets/clothes.dart';
-import 'package:SkyView/widgets/hours.dart';
-import 'package:SkyView/widgets/box_day.dart';
 import 'package:SkyView/widgets/leisure.dart';
-import 'package:SkyView/widgets/sun.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:SkyView/Appconstants/constants.dart';
@@ -98,10 +95,74 @@ class _IntrestingState extends State<Intresting> {
   Widget build(BuildContext context) {
     String st = "";
 
-    if (AppConstants.weather[currentIndex]["feelslike"] < 12 && AppConstants.weather[currentIndex]["weather_status"] != "Дождь" && AppConstants.weather[currentIndex]["weather_status"] != "Небольшой дождь"){
+    if (
+      AppConstants.weather[currentIndex]["feelslike"] >= 12 && 
+      AppConstants.weather[currentIndex]["weather_status"] != "Дождь" && 
+      AppConstants.weather[currentIndex]["weather_status"] != "Небольшой дождь" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Мелкий дождь" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Местами дождь" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Местами дождь со снегом" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Местами замерзающая морось" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Местами слабая морось" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Слабая морось" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Замерзающая морось" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Сильная замерзающая морось" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Местами небольшой дождь" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Временами умеренный дождь" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Умеренный дождь" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Временами сильный дождь" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Сильный дождь" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Сильные ливни" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Небольшой ледяной дождь" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Небольшой ливневый дождь" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Ледяной дождь" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Снег" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Местами снег" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Поземок" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Метель" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Местами небольшой снег" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Небольшой снег" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Местами умеренный снег" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Умеренный снег" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Местами сильный снег" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Сильный снег" && 
+      AppConstants.weather[currentIndex]["weather_status"] != "Умеренный или сильный снег"
+    ){
       st = "Холодно";
     }
-    else if (AppConstants.weather[currentIndex]["feelslike"] >= 12 && AppConstants.weather[currentIndex]["weather_status"] != "Дождь" && AppConstants.weather[currentIndex]["weather_status"] != "Небольшой дождь") {
+    else if (
+      AppConstants.weather[currentIndex]["feelslike"] >= 12 && 
+      AppConstants.weather[currentIndex]["weather_status"] != "Дождь" && 
+      AppConstants.weather[currentIndex]["weather_status"] != "Небольшой дождь" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Мелкий дождь" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Местами дождь" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Местами дождь со снегом" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Местами замерзающая морось" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Местами слабая морось" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Слабая морось" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Замерзающая морось" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Сильная замерзающая морось" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Местами небольшой дождь" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Временами умеренный дождь" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Умеренный дождь" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Временами сильный дождь" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Сильный дождь" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Сильные ливни" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Небольшой ледяной дождь" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Небольшой ливневый дождь" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Ледяной дождь" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Снег" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Местами снег" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Поземок" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Метель" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Местами небольшой снег" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Небольшой снег" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Местами умеренный снег" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Умеренный снег" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Местами сильный снег" &&
+      AppConstants.weather[currentIndex]["weather_status"] != "Сильный снег" && 
+      AppConstants.weather[currentIndex]["weather_status"] != "Умеренный или сильный снег"
+    ) {
       st = "Жарко";
     }
     else {
