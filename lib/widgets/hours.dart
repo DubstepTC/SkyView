@@ -41,7 +41,7 @@ class HoursList extends StatelessWidget {
         itemBuilder: (context, index) {
             return Container(
               margin: const EdgeInsets.all(10),
-              width: MediaQuery.of(context).size.width * 0.30,
+              width: MediaQuery.of(context).size.width * 0.33,
               height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
                 color: const Color.fromRGBO(39, 64, 87, 0.35),
@@ -57,7 +57,7 @@ class HoursList extends StatelessWidget {
                 children: [
                  Row(
                     children: [
-                      SizedBox(height: MediaQuery.of(context).size.height * 0.025,)
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.026,)
                     ],
                   ),
                  Row(

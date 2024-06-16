@@ -7,7 +7,7 @@ class ClothesWidget extends StatelessWidget {
 
   String clothingRecommendation(int temperature) {
     if (temperature >= -45 && temperature <= -25) {
-      return 'При такой температуре рекомендуется носить теплый пуховик, термобелье и шерстяные носки.';
+      return 'Рекомендуется носить теплый пуховик, термобелье и шерстяные носки.';
     } else if (temperature > -25 && temperature <= -18) {
       return 'Рекомендуется теплая куртка, шапка-ушанка и варежки.';
     } else if (temperature > -18 && temperature <= -10) {
@@ -25,7 +25,7 @@ class ClothesWidget extends StatelessWidget {
     } else if (temperature > 26 && temperature <= 33) {
       return 'Идеально подойдет одежда из легких и дышащих материалов.';
     } else if (temperature > 33 && temperature <= 40) {
-      return 'Рекомендуется носить очень легкую и светлую одежду для отражения солнечного света.';
+      return 'Рекомендуется носить очень легкую и светлую одежду.';
     } else if (temperature > 40 && temperature <= 45) {
       return 'Необходимо носить защитную одежду от солнца и пить много воды.';
     } else {
