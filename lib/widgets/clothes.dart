@@ -34,7 +34,7 @@ class ClothesWidget extends StatelessWidget {
   }
 
   String iconRecommendation(int temperature, String status) {
-    if (status == "Дождь" || status == "Небольшой дождь"){
+    if (status == "Дождь" || status == "Небольшой дождь" || status == "Местами дождь"){
       return "assets/clother/four.png";
     }
     else {
@@ -94,7 +94,7 @@ class ClothesWidget extends StatelessWidget {
                   clothingRecommendation(AppConstants.weather[index]["feelslike"]),
                   style: TextStyle(
                     color: AppConstants.nightColor,
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -105,7 +105,7 @@ class ClothesWidget extends StatelessWidget {
           // Картинка справа
           Container(
             height: MediaQuery.of(context).size.height * 0.15,
-            width: MediaQuery.of(context).size.width * 0.34,
+            width: MediaQuery.of(context).size.width * 0.32,
             child: Image.asset(
               iconRecommendation(AppConstants.weather[index]["feelslike"], AppConstants.weather[index]["weather_status"]),
             ),
